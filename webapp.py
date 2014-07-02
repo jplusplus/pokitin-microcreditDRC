@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Encoding: utf-8
 # -----------------------------------------------------------------------------
-# Project : 
+# Project : microcreditDRC
 # -----------------------------------------------------------------------------
 # Author : Edouard Richard                                  <edou4rd@gmail.com>
 # -----------------------------------------------------------------------------
@@ -10,20 +10,20 @@
 # Creation : 02-Jul-2014
 # Last mod : 02-Jul-2014
 # -----------------------------------------------------------------------------
-# This file is part of Serious-Toolkit.
+# This file is part of microcreditDRC.
 # 
-#     Serious-Toolkit is free software: you can redistribute it and/or modify
+#     microcreditDRC is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
 #     the Free Software Foundation, either version 3 of the License, or
 #     (at your option) any later version.
 # 
-#     Serious-Toolkit is distributed in the hope that it will be useful,
+#     microcreditDRC is distributed in the hope that it will be useful,
 #     but WITHOUT ANY WARRANTY; without even the implied warranty of
 #     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #     GNU General Public License for more details.
 # 
 #     You should have received a copy of the GNU General Public License
-#     along with Serious-Toolkit.  If not, see <http://www.gnu.org/licenses/>.
+#     along with microcreditDRC.  If not, see <http://www.gnu.org/licenses/>.
 
 from flask import Flask, render_template, request, send_file, g, \
 	send_from_directory, Response, abort, session, redirect, url_for, make_response

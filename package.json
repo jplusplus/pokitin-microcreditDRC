@@ -1,7 +1,7 @@
 {
-  "name": "Serious-Toolkit",
+  "name": "microcreditDRC",
   "version": "0.0.0",
-  "description": "A Serious-Toolkit to start serious apps",
+  "description": "",
   "main": "webapp.py",
   "dependencies": {
     "less": "^1.7.3",
