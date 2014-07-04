@@ -1,4 +1,10 @@
 extends 'base.html'
 block content
-	include partials/story.jade
-	include partials/map.jade
+	.container-fluid
+		.row
+			.col-sm-6
+				include partials/story.jade
+			.col-sm-6
+				include partials/map.jade
+
+//- EOF

@@ -16,18 +16,20 @@ js_all:
     - "../static/vendors/underscore.js"
     - "../static/vendors/bootstrap-3.2.0/js/bootstrap.min.js"
     - "../static/vendors/knockout-3.1.0.js"
-    # - "../assets/vendors/d3.js"
-    # - "../assets/vendors/queue.js"
+    - "../assets/vendors/d3.js"
+    - "../assets/vendors/queue.js"
     # - "../assets/vendors/raf.js"
-    # - "../assets/vendors/topojson.js"
+    - "../assets/vendors/topojson.js"
     # - "../assets/vendors/jquery.easing.1.3.js"
     # - "../assets/vendors/jquery.easing.compatibility.js"
     # - "../assets/vendors/chroma.js"
     # - "../assets/vendors/jquery.qtip.js"
     - contents:
+      - "../assets/coffee/settings.coffee"
       - "../assets/vendors/serious-toolkit/utils.coffee"
       - "../assets/vendors/serious-toolkit/widget.coffee"
       - "../assets/coffee/navigation.coffee"
+      - "../assets/coffee/map.coffee"
       output: gen/coffee.js
       filters: coffeescript
 

@@ -23,11 +23,10 @@
 #     You should have received a copy of the GNU General Public License
 #     along with microcreditDRC.  If not, see <http://www.gnu.org/licenses/>.
 
-window.microcreditDRC = {} unless window.microcreditDRC?
-
-class microcreditDRC.Navigation
-
-	constructor: () ->
-		@africaMap = new microcreditDRC.AfricaMap()
+settings = 
+	map:
+		africa_bounds : [[-20.2,-37.3],[54.3,39.0]]
+		urls :
+			geojson : "static/africa.topo.json"
 
 # EOF
