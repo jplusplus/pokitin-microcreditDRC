@@ -39,13 +39,10 @@ class microcreditDRC.AfricaMap
 	relayout: =>
 		# compute size
 		@width  = @ui.width()
-		@height = $(window).height() - @ui.offset().top
+		@height = $(window).height() - @ui.offset().top - 67
 		@svg
 			.attr("width" , @width)
 			.attr("height", @height)
-		@ui.css
-			width : @width
-			height: @height
 		# Create projection
 		@projection = d3.geo.mercator()
 			.scale(1)
@@ -53,8 +50,9 @@ class microcreditDRC.AfricaMap
 		b = [@projection(CONFIG.africa_bounds[0]), @projection(CONFIG.africa_bounds[1])]
 		w = (b[1][0] - b[0][0]) / @width
 		h = (b[1][1] - b[0][1]) / @height
-		s =  .95 / Math.max(Math.abs(w), Math.abs(h))
-		t = [-s * b[0][0], (@height - s * (b[1][1] + b[0][1])) / 2]
+		s = .95 / Math.max(Math.abs(w), Math.abs(h))
+		left_offset = @width - (s * (b[1][0] - b[0][0])) # align right
+		t = [-s * b[0][0] + left_offset, (@height - s * (b[1][1] + b[0][1])) / 2]
 		@projection
 			.scale(s)
 			.translate(t)

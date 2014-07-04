@@ -5,6 +5,8 @@
 {% block extra_js %}{% endblock %}
 
 <script type="text/javascript">
-	var navigation = new window.microcreditDRC.Navigation()
-	// serious.Widget.bindAll();
+	$(window).load(function() {
+		var navigation = new window.microcreditDRC.Navigation()
+		// serious.Widget.bindAll();
+	});
 </script>

@@ -2,9 +2,11 @@ extends 'base.html'
 block content
 	.container-fluid
 		.row
-			.col-sm-6
+			.col-xs-6
 				include partials/story.jade
-			.col-sm-6
+			.col-xs-6
 				include partials/map.jade
+		.row
+			include partials/navigation.jade
 
 //- EOF
