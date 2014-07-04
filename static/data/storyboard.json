@@ -1,0 +1,45 @@
+[
+	{
+		"__description_for_redactor__" : "Microfinance in Africa, Comparison country level",
+		"data" : "microfinance_africa.csv",
+		"map"  : {
+			"display"   : "choropleth"
+		}
+	},
+	{
+		"__description_for_redactor__" : "Congo compared to all African countries",
+		"data" : "microfinance_africa.csv",
+		"map"  : {
+			"display"   : "choropleth",
+			"tooltip"   : ["Democratic Republic of the Congo"],
+			"highlight" : ["Democratic Republic of the Congo"]
+		}
+	},
+	{
+		"__description_for_redactor__" : "Geographic spread of microfinance insitutes - Kinshasa",
+		"data" : "microfinance_geocoded.csv",
+		"map"  : {
+			"display"   : "bubble",
+			// "zoom"   : [], to be defined
+			"highlight" : ["MEC IDECE/Kinshsa", "COOPEC BUKAVU/KINSHASA"]
+		}
+	},
+	{
+		"__description_for_redactor__" : "Geographic spread of microfinance insitutes _ Kivus",
+		"data" : "microfinance_geocoded.csv",
+		"map"  : {
+			"display"   : "bubble",
+			// "zoom"   : [], to be defined
+			"highlight" : ["COOCEC-KIVU"]
+		}
+	},
+	{
+		"__description_for_redactor__" : "Geographic spread of microfinance insitutes _ Kivus",
+		"data" : "microfinance_geocoded.csv",
+		"map"  : {
+			"display"   : "bubble",
+			// "zoom"   : [], to be defined
+			"highlight" : ["COOCEC-KIVU"]
+		}
+	}
+]
