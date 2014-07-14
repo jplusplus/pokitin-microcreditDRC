@@ -46,7 +46,7 @@ class window.serious.Widget
 				widget._bindUI(ui)
 				widget.bindUI(ui)
 				# use http://knockoutjs.com as template manager
-				ko.applyBindings(widget, ui.get(0)) if ko?
+				ko.applyBindings(widget.scope, ui.get(0)) if ko?
 				return widget
 			else
 				console.warn("widget not found for", ui)
@@ -56,7 +56,8 @@ class window.serious.Widget
 		return eval("(" + $(ui).attr("data-widget") + ")")
 
 	_bindUI: (ui) =>
-		@ui = $(ui)
+		@scope = {}
+		@ui    = $(ui)
 		if @ui[0]._widget
 			delete @ui[0]._widget
 		@ui[0]._widget = this # set widget in selector for ensureWidget
