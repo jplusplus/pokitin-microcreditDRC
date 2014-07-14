@@ -5,8 +5,8 @@
 # -----------------------------------------------------------------------------
 # License : GNU General Public License
 # -----------------------------------------------------------------------------
-# Creation : 02-Jul-2014
-# Last mod : 02-Jul-2014
+# Creation : 14-Jul-2014
+# Last mod : 14-Jul-2014
 # -----------------------------------------------------------------------------
 # This file is part of microcreditDRC.
 # 
@@ -25,16 +25,13 @@
 
 window.microcreditDRC = {} unless window.microcreditDRC?
 
-microcreditDRC.settings =
+class microcreditDRC.Story extends serious.Widget
 
-	data :
-		storyboard : "static/data/storyboard.json"
-		africa     : "static/data/microfinance_africa.csv"
-		geocoded   : "static/data/microfinance_geocoded.csv"
-		kivus      : "static/data/microfinance_kivus.csv"
+	bindUI: =>
+		@data = {"body" : ko.observable("")}
 
-	map:
-		geojson       : "static/africa.topo.json"
-		africa_bounds : [[-20.2,-37.3],[54.3,39.0]]
+	setStory: (story_id) =>
+		$.get "static/stories/#{story_id}.md", (data) =>
+			@data.body(markdown.toHTML(data))
 
 # EOF

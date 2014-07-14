@@ -16,7 +16,7 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 # -----------------------------------------------------------------------------
 class microcreditDRC.AfricaMap extends serious.Widget
 
-	CONFIG = settings.map
+	CONFIG = microcreditDRC.settings.map
 
 	bindUI: (ui) =>
 		@ui = $(".africa-container", ui)
@@ -27,7 +27,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@groupSymbols = @group.append("g").attr("class", "all-symbols")
 		# load data
 		q = queue()
-		q.defer(d3.json, CONFIG.urls.geojson)
+		q.defer(d3.json, CONFIG.geojson)
 		q.await(@loadedDataCallback)
 	
 	loadedDataCallback: (error, geojson) =>

@@ -20,7 +20,6 @@
 		"data" : "microfinance_geocoded.csv",
 		"map"  : {
 			"display"   : "bubble",
-			// "zoom"   : [], to be defined
 			"highlight" : ["MEC IDECE/Kinshsa", "COOPEC BUKAVU/KINSHASA"]
 		}
 	},
@@ -29,16 +28,33 @@
 		"data" : "microfinance_geocoded.csv",
 		"map"  : {
 			"display"   : "bubble",
-			// "zoom"   : [], to be defined
 			"highlight" : ["COOCEC-KIVU"]
 		}
 	},
 	{
 		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
 		"data" : "microfinance_kivus.csv",
+		"column" : "gross loan volume",
 		"map"  : {
 			"display"   : "bubble",
-			// "zoom"   : [], to be defined
+			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
+		}
+	},
+	{
+		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
+		"data" : "microfinance_kivus.csv",
+		"column" : "number of borrowers",
+		"map"  : {
+			"display"   : "bubble",
+			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
+		}
+	},
+	{
+		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
+		"data" : "microfinance_kivus.csv",
+		"column" : "average loan",
+		"map"  : {
+			"display"   : "bubble",
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
 		}
 	}

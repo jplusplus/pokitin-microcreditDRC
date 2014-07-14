@@ -28,6 +28,35 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 class microcreditDRC.Navigation extends serious.Widget
 
 	bindUI: =>
-		@africaMap = serious.Widget.ensureWidget($(".widget.navigation"))
+		@currentStory    = 0
+		@data            = {}
+		@africaMapWidget = serious.Widget.ensureWidget($(".widget.navigation"))
+		@storyWidget     = serious.Widget.ensureWidget($(".widget.story"))
+		# load data
+		q = queue()
+		for data_name, data_file of microcreditDRC.settings.data
+			do (data_file) ->
+				if data_file.indexOf(".json") > -1
+					q.defer(d3.json, data_file)
+				else if data_file.indexOf(".csv") > -1
+					q.defer(d3.csv, data_file)
+		q.awaitAll(@dataLoaded)
+
+	dataLoaded: (errors, results) =>
+		for data_name, i in _.keys(microcreditDRC.settings.data)
+			@data[data_name] = results[i]
+		@start()
+
+	start:     => @showStory()
+
+	showStory: => @storyWidget.setStory(@currentStory)
+
+	next: =>
+		@currentStory += 1 if @currentStory < @data.storyboard.length
+		@showStory()
+
+	previous: =>
+		@currentStory -= 1 if @currentStory > 0
+		@showStory()
 
 # EOF
