@@ -6,7 +6,7 @@
 # License : GNU General Public License
 # -----------------------------------------------------------------------------
 # Creation : 04-Jul-2014
-# Last mod : 04-Jul-2014
+# Last mod : 14-Jul-2014
 # -----------------------------------------------------------------------------
 window.microcreditDRC = {} unless window.microcreditDRC?
 # -----------------------------------------------------------------------------
@@ -14,12 +14,12 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 #    AFRICA MAP
 #
 # -----------------------------------------------------------------------------
-class microcreditDRC.AfricaMap
-	
+class microcreditDRC.AfricaMap extends serious.Widget
+
 	CONFIG = settings.map
 
-	constructor: () ->
-		@ui = $(".africa-container")
+	bindUI: (ui) =>
+		@ui = $(".africa-container", ui)
 		@svg = d3.select(".africa-container")
 			.insert("svg" , ":first-child")
 		@group        = @svg.append("g")

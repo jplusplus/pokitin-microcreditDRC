@@ -34,12 +34,12 @@
 		}
 	},
 	{
-		"__description_for_redactor__" : "Geographic spread of microfinance insitutes _ Kivus",
-		"data" : "microfinance_geocoded.csv",
+		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
+		"data" : "microfinance_kivus.csv",
 		"map"  : {
 			"display"   : "bubble",
 			// "zoom"   : [], to be defined
-			"highlight" : ["COOCEC-KIVU"]
+			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
 		}
 	}
 ]

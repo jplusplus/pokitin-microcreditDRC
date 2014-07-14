@@ -6,7 +6,7 @@
 # License : GNU General Public License
 # -----------------------------------------------------------------------------
 # Creation : 02-Jul-2014
-# Last mod : 02-Jul-2014
+# Last mod : 14-Jul-2014
 # -----------------------------------------------------------------------------
 # This file is part of microcreditDRC.
 # 
@@ -25,9 +25,9 @@
 
 window.microcreditDRC = {} unless window.microcreditDRC?
 
-class microcreditDRC.Navigation
+class microcreditDRC.Navigation extends serious.Widget
 
-	constructor: () ->
-		@africaMap = new microcreditDRC.AfricaMap()
+	bindUI: =>
+		@africaMap = serious.Widget.ensureWidget($(".widget.navigation"))
 
 # EOF
