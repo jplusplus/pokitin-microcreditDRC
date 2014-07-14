@@ -28,35 +28,41 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 class microcreditDRC.Navigation extends serious.Widget
 
 	bindUI: =>
-		@currentStory    = 0
-		@data            = {}
-		@africaMapWidget = serious.Widget.ensureWidget($(".widget.navigation"))
-		@storyWidget     = serious.Widget.ensureWidget($(".widget.story"))
-		# load data
-		q = queue()
-		for data_name, data_file of microcreditDRC.settings.data
-			do (data_file) ->
-				if data_file.indexOf(".json") > -1
-					q.defer(d3.json, data_file)
-				else if data_file.indexOf(".csv") > -1
-					q.defer(d3.csv, data_file)
-		q.awaitAll(@dataLoaded)
+		# init the scope, visible from template with knockout.js
+		@scope.currentStory = ko.observable(0)
+		@scope.storyboard   = ko.observable({})
+		@scope.hasNext      = ko.computed(@hasNext)
+		@scope.hasPrevious  = ko.computed(@hasPrevious)
+		@scope.next         = @next
+		@scope.previous     = @previous
+		# get the instance of other widgets
+		@africaMapWidget    = serious.Widget.ensureWidget($(".widget.map"))
+		@storyWidget        = serious.Widget.ensureWidget($(".widget.story"))
+		# load storyboard
+		q = queue().defer(d3.json, microcreditDRC.settings.storyboard)
+		q.await(@dataLoaded)
 
-	dataLoaded: (errors, results) =>
-		for data_name, i in _.keys(microcreditDRC.settings.data)
-			@data[data_name] = results[i]
-		@start()
+	dataLoaded: (errors, storyboard) =>
+		console.error "Error in #{microcreditDRC.settings.storyboard}", errors if errors
+		@scope.storyboard(storyboard)
+		@showStory()
 
-	start:     => @showStory()
+	showStory: =>
+		@africaMapWidget.setStory(@scope.storyboard()[@scope.currentStory()].map)
+		@storyWidget.setStory(@scope.currentStory())
 
-	showStory: => @storyWidget.setStory(@currentStory)
+	hasNext: =>
+		return @scope.currentStory() < @scope.storyboard().length - 1 if @scope.storyboard()
+
+	hasPrevious: =>
+		return @scope.currentStory() > 0
 
 	next: =>
-		@currentStory += 1 if @currentStory < @data.storyboard.length
+		@scope.currentStory(@scope.currentStory() + 1) if @hasNext()
 		@showStory()
 
 	previous: =>
-		@currentStory -= 1 if @currentStory > 0
+		@scope.currentStory(@scope.currentStory() - 1) if @hasPrevious()
 		@showStory()
 
 # EOF

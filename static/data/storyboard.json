@@ -1,59 +1,59 @@
 [
 	{
 		"__description_for_redactor__" : "Microfinance in Africa, Comparison country level",
-		"data" : "microfinance_africa.csv",
 		"map"  : {
-			"display"   : "choropleth"
+			"display"   : "choropleth",
+			"data"      : "microfinance_africa"
 		}
 	},
 	{
 		"__description_for_redactor__" : "Congo compared to all African countries",
-		"data" : "microfinance_africa.csv",
 		"map"  : {
 			"display"   : "choropleth",
+			"data"      : "microfinance_africa",
 			"tooltip"   : ["Democratic Republic of the Congo"],
 			"highlight" : ["Democratic Republic of the Congo"]
 		}
 	},
 	{
 		"__description_for_redactor__" : "Geographic spread of microfinance insitutes - Kinshasa",
-		"data" : "microfinance_geocoded.csv",
 		"map"  : {
 			"display"   : "bubble",
+			"data"      : "microfinance_geocoded",
 			"highlight" : ["MEC IDECE/Kinshsa", "COOPEC BUKAVU/KINSHASA"]
 		}
 	},
 	{
 		"__description_for_redactor__" : "Geographic spread of microfinance insitutes _ Kivus",
-		"data" : "microfinance_geocoded.csv",
 		"map"  : {
 			"display"   : "bubble",
+			"data"      : "microfinance_geocoded",
 			"highlight" : ["COOCEC-KIVU"]
 		}
 	},
 	{
 		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
-		"data" : "microfinance_kivus.csv",
 		"column" : "gross loan volume",
 		"map"  : {
+			"data"      : "microfinance_kivus",
 			"display"   : "bubble",
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
 		}
 	},
 	{
 		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
-		"data" : "microfinance_kivus.csv",
 		"column" : "number of borrowers",
 		"map"  : {
+			"data"      : "microfinance_kivus",
 			"display"   : "bubble",
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
 		}
 	},
 	{
 		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
-		"data" : "microfinance_kivus.csv",
 		"column" : "average loan",
 		"map"  : {
+			"data"      : "microfinance_kivus",
 			"display"   : "bubble",
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
 		}

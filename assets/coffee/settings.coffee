@@ -27,14 +27,16 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 
 microcreditDRC.settings =
 
-	data :
-		storyboard : "static/data/storyboard.json"
-		africa     : "static/data/microfinance_africa.csv"
-		geocoded   : "static/data/microfinance_geocoded.csv"
-		kivus      : "static/data/microfinance_kivus.csv"
+	storyboard : "static/data/storyboard.json"
 
 	map:
-		geojson       : "static/africa.topo.json"
+		data :
+			microfinance_africa   : "static/data/microfinance_africa.csv"
+			microfinance_geocoded : "static/data/microfinance_geocoded.csv"
+			microfinance_kivus    : "static/data/microfinance_kivus.csv"
+			geojson               : "static/africa.topo.json"
 		africa_bounds : [[-20.2,-37.3],[54.3,39.0]]
+		color_scale   : ['rgb(158,202,225)','rgb(107,174,214)','rgb(66,146,198)','rgb(33,113,181)','rgb(8,69,148)', "#001261"] # http://colorbrewer2.org/?type=sequential&scheme=Blues&n=7
+
 
 # EOF

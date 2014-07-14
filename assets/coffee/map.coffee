@@ -19,7 +19,13 @@ class microcreditDRC.AfricaMap extends serious.Widget
 	CONFIG = microcreditDRC.settings.map
 
 	bindUI: (ui) =>
-		@ui = $(".africa-container", ui)
+		@ready = false
+		@data  =
+			africa     : undefined
+			geocoded   : undefined
+			kivus      : undefined
+			geojson    : undefined
+		@container    = $(".africa-container", ui)
 		@svg = d3.select(".africa-container")
 			.insert("svg" , ":first-child")
 		@group        = @svg.append("g")
@@ -27,19 +33,31 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@groupSymbols = @group.append("g").attr("class", "all-symbols")
 		# load data
 		q = queue()
-		q.defer(d3.json, CONFIG.geojson)
-		q.await(@loadedDataCallback)
-	
-	loadedDataCallback: (error, geojson) =>
-		@countries = topojson.feature(geojson, geojson.objects.Africa1).features
+		for data_name, data_file of CONFIG.data
+			do (data_file) ->
+				if data_file.indexOf(".json") > -1
+					q.defer(d3.json, data_file)
+				else if data_file.indexOf(".csv") > -1
+					q.defer(d3.csv, data_file)
+		q.awaitAll(@dataLoaded)
+
+	# save data and start the map
+	dataLoaded: (errors, results) =>
+		for data_name, i in _.keys(CONFIG.data)
+			@data[data_name] = results[i]
+		@start()
+
+	start: =>
+		@countries = topojson.feature(@data.geojson, @data.geojson.objects.Africa1).features
 		@relayout()
 		# Bind events
 		$(window).resize @relayout
+		@ready = true
 
 	relayout: =>
 		# compute size
-		@width  = @ui.width()
-		@height = $(window).height() - @ui.offset().top - 67
+		@width  = @container.width()
+		@height = $(window).height() - @container.offset().top - 67
 		@svg
 			.attr("width" , @width)
 			.attr("height", @height)
@@ -64,5 +82,29 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			.enter()
 				.append("path")
 				.attr("d", @path)
+
+	setStory: (story) =>
+		# wait data
+		return setTimeout((=> @setStory(story)), 100) unless @ready
+		# detect the type of map
+		switch story.display
+			when "choropleth"
+				@renderChoropleth(story)
+			when "bubble"
+				@renderBubble(story)
+
+	renderChoropleth: (story) =>
+		data_story = @data[story.data]
+		# color scale
+		values = data_story.map((l)-> l.gross_loans)
+		domain = [Math.min.apply(Math, values), Math.max.apply(Math, values)]
+		scale  = chroma.scale(CONFIG.color_scale).domain(domain, 10)
+		@groupPaths.selectAll('path')
+			.attr 'fill', (d) -> # color countries using the color scale
+				country = data_story.filter((l) -> l.country == d.properties.Name)
+				if country.length > 0
+					return scale(country[0].gross_loans).hex() 
+				else
+					return "#BEBEBE"
 
 # EOF

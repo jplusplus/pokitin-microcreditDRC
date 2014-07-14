@@ -28,10 +28,10 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 class microcreditDRC.Story extends serious.Widget
 
 	bindUI: =>
-		@data = {"body" : ko.observable("")}
+		@scope.body = ko.observable("")
 
 	setStory: (story_id) =>
 		$.get "static/stories/#{story_id}.md", (data) =>
-			@data.body(markdown.toHTML(data))
+			@scope.body(markdown.toHTML(data))
 
 # EOF
