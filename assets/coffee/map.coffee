@@ -107,4 +107,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				else
 					return "#BEBEBE"
 
+	renderBubble: (story) =>
+		# TODO
+
 # EOF
