@@ -1,6 +1,5 @@
 Map of microfinance in the DR Congo
 ===================================
->>>>>>> pokitin-microcreditDRC
 
 ## Commands
 
