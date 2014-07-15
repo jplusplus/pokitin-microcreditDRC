@@ -106,6 +106,9 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@groupPaths.selectAll('path')
 			.attr 'fill', CONFIG.default_fill_color
 		@groupSymbols.selectAll("circle").remove()
+		# reset tooltip, destroy everything
+		$("circle").qtip('destroy', true)
+		$("path") .qtip('destroy', true)
 		@force.stop() if @force
 		# reset legend
 		@uis.scale.html("")
