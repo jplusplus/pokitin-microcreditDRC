@@ -27,6 +27,11 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 
 class microcreditDRC.Navigation extends serious.Widget
 
+	constructor : ->
+		# load storyboard
+		q = queue().defer(d3.json, microcreditDRC.settings.storyboard)
+		q.await(@dataLoaded)
+		
 	bindUI: =>
 		# init the scope, visible from template with knockout.js
 		@scope.currentStory = ko.observable(0)
@@ -38,9 +43,6 @@ class microcreditDRC.Navigation extends serious.Widget
 		# get the instance of other widgets
 		@africaMapWidget    = serious.Widget.ensureWidget($(".widget.map"))
 		@storyWidget        = serious.Widget.ensureWidget($(".widget.story"))
-		# load storyboard
-		q = queue().defer(d3.json, microcreditDRC.settings.storyboard)
-		q.await(@dataLoaded)
 
 	dataLoaded: (errors, storyboard) =>
 		console.error "Error in #{microcreditDRC.settings.storyboard}", errors if errors

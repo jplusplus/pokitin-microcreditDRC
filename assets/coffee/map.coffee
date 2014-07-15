@@ -18,19 +18,13 @@ class microcreditDRC.AfricaMap extends serious.Widget
 
 	CONFIG = microcreditDRC.settings.map
 
-	bindUI: (ui) =>
+	constructor: ->
 		@ready = false
 		@data  =
 			africa     : undefined
 			geocoded   : undefined
 			kivus      : undefined
 			geojson    : undefined
-		@container    = $(".africa-container", ui)
-		@svg = d3.select(".africa-container")
-			.insert("svg" , ":first-child")
-		@group        = @svg.append("g")
-		@groupPaths   = @group.append("g").attr("class", "all-path")
-		@groupSymbols = @group.append("g").attr("class", "all-symbols")
 		# load data
 		q = queue()
 		for data_name, data_file of CONFIG.data
@@ -41,17 +35,22 @@ class microcreditDRC.AfricaMap extends serious.Widget
 					q.defer(d3.csv, data_file)
 		q.awaitAll(@dataLoaded)
 
+	bindUI: (ui) =>
+		@container = $(".africa-container", ui)
+		@svg = d3.select(".africa-container")
+			.insert("svg" , ":first-child")
+		@group        = @svg.append("g")
+		@groupPaths   = @group.append("g").attr("class", "all-path")
+		@groupSymbols = @group.append("g").attr("class", "all-symbols")
+
 	# save data and start the map
 	dataLoaded: (errors, results) =>
 		for data_name, i in _.keys(CONFIG.data)
 			@data[data_name] = results[i]
-		@start()
-
-	start: =>
 		@countries = topojson.feature(@data.geojson, @data.geojson.objects.Africa1).features
 		@relayout()
 		# Bind events
-		$(window).resize @relayout
+		$(window).resize _.debounce(@relayout, 300)
 		@ready = true
 
 	relayout: =>
@@ -82,8 +81,10 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			.enter()
 				.append("path")
 				.attr("d", @path)
+		@setStory(@story) if @story
 
 	setStory: (story) =>
+		@story = story
 		# wait data
 		return setTimeout((=> @setStory(story)), 100) unless @ready
 		# detect the type of map
