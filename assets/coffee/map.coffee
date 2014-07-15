@@ -36,9 +36,11 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		q.awaitAll(@dataLoaded)
 
 	bindUI: (ui) =>
-		@container = $(".africa-container", ui)
-		@svg = d3.select(".africa-container")
-			.insert("svg" , ":first-child")
+		@UIS = 
+			legend : ".legend"
+			scale  : ".legend .scale"
+		@container    = $(".africa-container", ui)
+		@svg          = d3.select(".africa-container").insert("svg" , ":first-child")
 		@group        = @svg.append("g")
 		@groupPaths   = @group.append("g").attr("class", "all-path")
 		@groupSymbols = @group.append("g").attr("class", "all-symbols")
@@ -102,16 +104,18 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		countries  = _.object(keys, values)
 		# color scale
 		domain = [Math.min.apply(Math, values), Math.max.apply(Math, values)]
-		scale  = chroma.scale(CONFIG.color_scale).domain(domain, 10)
+		scale  = chroma.scale(CONFIG.color_scale).domain(domain, 3)
 		@groupPaths.selectAll('path')
 			.attr 'fill', (d) -> # color countries using the color scale
 				# mode highlight : color only the highlighted countries
 				# otherwise      : color all the countries with data
+				color = "#BEBEBE"
 				if countries[d.properties.Name]?
 					if (story.highlight? and d.properties.Name in story.highlight) \
 					or not story.highlight?
-						return scale(countries[d.properties.Name]).hex()
-				return "#BEBEBE"
+						color = scale(countries[d.properties.Name]).hex()
+				d.color = color
+				return color
 		@groupPaths.selectAll('path').each (d) ->
 			if countries[d.properties.Name]?
 				$(this).qtip
@@ -119,8 +123,89 @@ class microcreditDRC.AfricaMap extends serious.Widget
 					show : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
 					content :
 						text: "#{d.properties.Name}<br/><strong>#{countries[d.properties.Name]}</strong>"
+		@showLegend(scale)
 
 	renderBubble: (story) =>
 		# TODO
+
+	showLegend : (scale) =>
+		that = this
+		# remove old legend
+		@uis.scale.html("")
+		# show value legend
+		domains       = scale.domain()
+		legend_size   = 300
+		domains_delta = domains[domains.length - 1] - domains[0]
+		offset        = 0
+		max_height    = 0
+		size_by_value = true
+		label_size    = 0
+		@uis.legend.css "width", legend_size
+		_.each domains, (step, i) ->
+			size_by_value = false  if (domains[i] - domains[i - 1]) / domains_delta * legend_size < 20  if i > 0
+			return
+		rounded_domains   = AfricaMap.smartRound(domains, 0)
+		_.each domains, (step, index) ->
+			# for each segment, we adding a domain in the legend and a sticker
+			if index < domains.length - 1
+				delta = domains[index + 1] - step
+				color = scale(step)
+				label = rounded_domains[index].toString().replace('.', ",")
+				# if index == domains.length - 2 and that.stories.get(that.story_selected).infos["append_sign"]?
+				# 	label += " #{that.stories.get(that.story_selected).infos["append_sign"]}"
+				size  = (if size_by_value then delta / domains_delta * legend_size else legend_size / (domains.length - 1))
+				# setting step
+				$step = $("<div class='step'></div>")
+				$sticker = $("<span class='sticker'></span>").appendTo(that.uis.scale)
+				$step.css
+					width: size
+					"background-color": color.hex()
+				# settings ticker
+				$sticker.css "left", offset
+				if index > 0
+					label_size += size
+					if label_size < 30
+						label = ""
+					else
+						label_size = 0
+					$("<div />").addClass("value").html(label).appendTo $sticker
+				else
+					$sticker.remove()
+				# add hover effect to highlight regions
+				select = (e, fix=false) =>
+					$(".step").removeClass("active fixed")
+					$target = $(e.target)
+					$target.addClass("active")
+					$target.addClass("fixed") if fix
+					step_color = chroma.color($target.css("background-color")).hex()
+					opacity    = (path) -> if path.color == step_color then 1 else .2
+					that.groupPaths.selectAll("path")
+						.attr("opacity", opacity)
+						.classed("discret", false)
+				deselect = (e, force=false) =>
+					$(".step").removeClass("active fixed")
+					that.groupPaths.selectAll("path")
+						.attr("opacity", 1)
+						.classed("discret", (d) -> d.is_discrete)
+				$step.add($sticker).hover(select, deselect)
+				that.uis.scale.append $step
+				offset += size
+
+	#     Rounds a set of unique numbers to the lowest
+	#     precision where the values remain unique
+	@smartRound = (values, add_precision) ->
+		round = (b) ->
+			+(b.toFixed(precision))
+		result = []
+		precision = 0
+		nonEqual = true
+		loop
+			result = _.map(values, round)
+			precision++
+			break unless _.uniq(result, true).length < values.length
+		if add_precision
+			precision += add_precision - 1
+			result = _.map(values, round)
+		result
 
 # EOF
