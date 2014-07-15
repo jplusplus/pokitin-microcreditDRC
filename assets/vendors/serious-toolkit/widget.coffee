@@ -43,8 +43,9 @@ class window.serious.Widget
 			widget_class = Widget.getWidgetClass(ui)
 			if widget_class?
 				widget = new widget_class()
-				widget._bindUI(ui)
+				widget.scope = {}
 				widget.bindUI(ui)
+				widget._bindUI(ui)
 				# use http://knockoutjs.com as template manager
 				ko.applyBindings(widget.scope, ui.get(0)) if ko?
 				return widget
@@ -56,7 +57,6 @@ class window.serious.Widget
 		return eval("(" + $(ui).attr("data-widget") + ")")
 
 	_bindUI: (ui) =>
-		@scope = {}
 		@ui    = $(ui)
 		if @ui[0]._widget
 			delete @ui[0]._widget
@@ -68,7 +68,7 @@ class window.serious.Widget
 				nui = @ui.find(value)
 				if nui.length < 1
 					console.warn("uis", key, "not found in", ui)
-				@uis[key] = nu
+				@uis[key] = nui
 
 	hide: =>
 		@ui.addClass "hidden"
