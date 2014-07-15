@@ -84,9 +84,9 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@setStory(@story) if @story
 
 	setStory: (story) =>
-		@story = story
 		# wait data
 		return setTimeout((=> @setStory(story)), 100) unless @ready
+		@story = story
 		# detect the type of map
 		switch story.display
 			when "choropleth"
@@ -95,18 +95,30 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				@renderBubble(story)
 
 	renderChoropleth: (story) =>
+		# prepare data
 		data_story = @data[story.data]
+		keys       = data_story.map((l)-> l.country)
+		values     = data_story.map((l)-> parseFloat(l.gross_loans))
+		countries  = _.object(keys, values)
 		# color scale
-		values = data_story.map((l)-> l.gross_loans)
 		domain = [Math.min.apply(Math, values), Math.max.apply(Math, values)]
 		scale  = chroma.scale(CONFIG.color_scale).domain(domain, 10)
 		@groupPaths.selectAll('path')
 			.attr 'fill', (d) -> # color countries using the color scale
-				country = data_story.filter((l) -> l.country == d.properties.Name)
-				if country.length > 0
-					return scale(country[0].gross_loans).hex() 
-				else
-					return "#BEBEBE"
+				# mode highlight : color only the highlighted countries
+				# otherwise      : color all the countries with data
+				if countries[d.properties.Name]?
+					if (story.highlight? and d.properties.Name in story.highlight) \
+					or not story.highlight?
+						return scale(countries[d.properties.Name]).hex()
+				return "#BEBEBE"
+		@groupPaths.selectAll('path').each (d) ->
+			if countries[d.properties.Name]?
+				$(this).qtip
+					# show the tooltip if the country name is in story.tooltip
+					show : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
+					content :
+						text: "#{d.properties.Name}<br/><strong>#{countries[d.properties.Name]}</strong>"
 
 	renderBubble: (story) =>
 		# TODO
