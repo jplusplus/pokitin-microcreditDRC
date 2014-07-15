@@ -12,15 +12,17 @@
 			"display"   : "choropleth",
 			"data"      : "microfinance_africa",
 			"tooltip"   : ["Democratic Republic of the Congo"],
-			"highlight" : ["Democratic Republic of the Congo"]
+			"map_highlight" : ["Democratic Republic of the Congo"]
 		}
 	},
 	{
 		"__description_for_redactor__" : "Geographic spread of microfinance insitutes - Kinshasa",
 		"map"  : {
-			"display"   : "bubble",
-			"data"      : "microfinance_geocoded",
-			"highlight" : ["MEC IDECE/Kinshsa", "COOPEC BUKAVU/KINSHASA"]
+			"display"          : "bubble",
+			"data"             : "microfinance_geocoded",
+			"bubble_highlight" : ["MEC IDECE/Kinshsa", "COOPEC BUKAVU/KINSHASA"],
+			"map_highlight"    : ["Democratic Republic of the Congo"],
+			"zoom"             : {"center" : [21.204934597,-5.3317697525], "scale": 3}
 		}
 	},
 	{
@@ -28,7 +30,9 @@
 		"map"  : {
 			"display"   : "bubble",
 			"data"      : "microfinance_geocoded",
-			"highlight" : ["COOCEC-KIVU"]
+			"bubble_highlight" : ["COOCEC-KIVU"],
+			"map_highlight"    : ["Democratic Republic of the Congo"],
+			"zoom"             : {"center" : [21.204934597,-5.3317697525], "scale": 3}
 		}
 	},
 	{

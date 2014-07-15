@@ -35,8 +35,23 @@ microcreditDRC.settings =
 			microfinance_geocoded : "static/data/microfinance_geocoded.csv"
 			microfinance_kivus    : "static/data/microfinance_kivus.csv"
 			geojson               : "static/africa.topo.json"
-		africa_bounds : [[-20.2,-37.3],[54.3,39.0]]
-		color_scale   : ['rgb(158,202,225)','rgb(107,174,214)','rgb(66,146,198)','rgb(33,113,181)','rgb(8,69,148)', "#001261"] # http://colorbrewer2.org/?type=sequential&scheme=Blues&n=7
-
+		transition_duration      : 750
+		africa_bounds            : [[-20.2,-37.3],[54.3,39.0]]
+		default_fill_color       : "#BEBEBE"
+		highlighted_fill_color   : "#0080FF"
+		choropleth_bucket_number : 4
+		choropleth_color_scale   : ['rgb(158,202,225)','rgb(107,174,214)','rgb(66,146,198)','rgb(33,113,181)','rgb(8,69,148)', "#001261"] # http://colorbrewer2.org/?type=sequential&scheme=Blues&n=7
+		bubble_default_color     : "#4D4D4D"
+		bubble_default_size      : 4
+		tooltip_style :
+			style: # http://qtip2.com/options#style
+				classes : "qtip-dark qtip-tipsy"
+				tip:
+					corner: false
+			position:
+				target: 'mouse'
+				adjust:
+					x:  40
+					y: -10 
 
 # EOF

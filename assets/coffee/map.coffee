@@ -85,10 +85,35 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				.attr("d", @path)
 		@setStory(@story) if @story
 
+	computeZoomTranslation: (story) =>
+		### Return the translation instruction as string ex: "translate(1,2)scale(1)"" ###
+		scale    = 1
+		offset_y = 0
+		offset_x = 0
+		if story.zoom?
+			scale     = story.zoom.scale
+			center    = @projection(story.zoom.center)
+			offset_x  = - (center[0] * scale - @width / 2)
+			offset_y  = - (center[1] * scale - @height / 2)
+		transformation = "translate(#{offset_x},#{offset_y})scale(#{scale})"
+		return transformation
+
 	setStory: (story) =>
 		# wait data
 		return setTimeout((=> @setStory(story)), 100) unless @ready
 		@story = story
+		# reset map
+		@groupPaths.selectAll('path')
+			.attr 'fill', CONFIG.default_fill_color
+		@groupSymbols.selectAll("circle").remove()
+		@force.stop() if @force
+		# reset legend
+		@uis.scale.html("")
+		# make a zoom
+		# zoom + move
+		@groupPaths.selectAll('path')
+			.transition().duration(CONFIG.transition_duration)
+				.attr("transform", @computeZoomTranslation(story))
 		# detect the type of map
 		switch story.display
 			when "choropleth"
@@ -104,29 +129,75 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		countries  = _.object(keys, values)
 		# color scale
 		domain = [Math.min.apply(Math, values), Math.max.apply(Math, values)]
-		scale  = chroma.scale(CONFIG.color_scale).domain(domain, 3)
+		scale  = chroma.scale(CONFIG.choropleth_color_scale).domain(domain, CONFIG.choropleth_bucket_number)
 		@groupPaths.selectAll('path')
 			.attr 'fill', (d) -> # color countries using the color scale
 				# mode highlight : color only the highlighted countries
 				# otherwise      : color all the countries with data
-				color = "#BEBEBE"
+				color = CONFIG.default_fill_color
 				if countries[d.properties.Name]?
-					if (story.highlight? and d.properties.Name in story.highlight) \
-					or not story.highlight?
+					if (story.map_highlight? and d.properties.Name in story.map_highlight) \
+					or not story.map_highlight?
 						color = scale(countries[d.properties.Name]).hex()
+				# save color in element properties
 				d.color = color
 				return color
 		@groupPaths.selectAll('path').each (d) ->
 			if countries[d.properties.Name]?
-				$(this).qtip
+				params = 
 					# show the tooltip if the country name is in story.tooltip
-					show : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
-					content :
+					show     : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
+					position : if story.tooltip? and d.properties.Name in story.tooltip then null else undefined
+					content  :
 						text: "#{d.properties.Name}<br/><strong>#{countries[d.properties.Name]}</strong>"
+				$(this).qtip _.defaults(params, CONFIG.tooltip_style)
 		@showLegend(scale)
 
 	renderBubble: (story) =>
-		# TODO
+		that = this
+		data_story = @data[story.data]
+		# prepare data
+		for line in data_story
+			coord       = @projection([line.longitude, line.latitude])
+			line.gx     = coord[0]
+			line.gy     = coord[1]
+			line.radius = CONFIG.bubble_default_size
+		# color map
+		if story.map_highlight
+			@groupPaths.selectAll('path')
+				.attr 'fill', (d) -> 
+					if d.properties.Name in story.map_highlight
+						return CONFIG.highlighted_fill_color
+					else
+						return CONFIG.default_fill_color
+		# positioning with the Force
+		@force = d3.layout.force()
+			.nodes(data_story)
+			.gravity(0)
+			.charge(0)
+			.size([@width, @height])
+			.on "tick", (e) ->
+				that.groupSymbols.selectAll("circle")
+					.each(AfricaMap.collide(data_story, e.alpha))
+					.attr 'transform', (d)->
+						transformation = ""
+						transformation += that.computeZoomTranslation(story)
+						transformation += "translate(#{d.x}, #{d.y})"
+						transformation += "scale(#{1/story.zoom.scale})" if story.zoom?
+						return transformation
+		# put cirlce on the map
+		@groupSymbols.selectAll("circle").remove()
+		@symbol = @groupSymbols.selectAll("circle").data(data_story)
+		@symbol.enter()
+			.append("circle", ".all-symbols")
+				.attr("r", (d)-> d.radius)
+				.attr("fill", CONFIG.bubble_default_color)
+				.attr("stroke-width", CONFIG.bubble_default_size * 0.1)
+				.attr("stroke", "white")
+				.call(@force.drag)
+		@symbol.exit().remove()
+		# active the Force
+		@force.start()
 
 	showLegend : (scale) =>
 		that = this
@@ -207,5 +278,33 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			precision += add_precision - 1
 			result = _.map(values, round)
 		result
+
+	@collide = (node, alpha) ->
+		quadtree = d3.geom.quadtree(node)
+		return (d) ->
+			r = d.radius
+			nx1 = d.x - r
+			nx2 = d.x + r
+			ny1 = d.y - r
+			ny2 = d.y + r
+			d.x += (d.gx - d.x ) * alpha * 0.1
+			d.y += (d.gy - d.y ) * alpha * 0.1
+			quadtree.visit((quad, x1, y1, x2, y2) ->
+				if (quad.point && quad.point != d)
+					x = d.x - quad.point.x
+					y = d.y - quad.point.y
+					l = Math.sqrt(x * x + y * y)
+					r = d.radius + quad.point.radius
+					if l < r
+						l = (l - r) / l * alpha
+						d.x -= x *= l
+						d.y -= y *= l
+						quad.point.x += x
+						quad.point.y += y
+				return x1 > nx2 \
+					|| x2 < nx1 \
+					|| y1 > ny2 \
+					|| y2 < ny1
+			)
 
 # EOF
