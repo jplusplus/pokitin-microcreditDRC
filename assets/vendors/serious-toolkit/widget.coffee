@@ -44,6 +44,7 @@ class window.serious.Widget
 			if widget_class?
 				widget = new widget_class()
 				widget.scope = {}
+				widget.ui    = $(ui)
 				widget.bindUI(ui)
 				widget._bindUI(ui)
 				# use http://knockoutjs.com as template manager
@@ -57,7 +58,6 @@ class window.serious.Widget
 		return eval("(" + $(ui).attr("data-widget") + ")")
 
 	_bindUI: (ui) =>
-		@ui    = $(ui)
 		if @ui[0]._widget
 			delete @ui[0]._widget
 		@ui[0]._widget = this # set widget in selector for ensureWidget
