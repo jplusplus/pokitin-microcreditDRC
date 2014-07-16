@@ -190,7 +190,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@force = d3.layout.force()
 			.nodes(data_story)
 			.gravity(0)
-			.charge(-1/CONFIG.bubble_default_size)
+			.charge(0)
 			.size([@width, @height])
 			.on "tick", (e) ->
 				that.groupSymbols.selectAll("circle")
