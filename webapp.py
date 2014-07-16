@@ -53,7 +53,6 @@ def index():
 	response = make_response(render_template('home.jade'))
 	return response
 
-
 @app.route('/fr.html')
 def page_fr():
 	g.language = "fr"
