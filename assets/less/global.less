@@ -12,9 +12,58 @@ body {
 }
 
 .map {
-	path {
-		stroke: #E8E8E8;
-		stroke-width: .05em;
+	position: relative;
+	.africa-container {
+		path {
+			stroke: #E8E8E8;
+			stroke-width: .05em;
+		}
+	}
+	.legend {
+		position   : absolute;
+		bottom     : 10px;
+		right      : 0;
+		max-width  : 300px;
+		font-size  : .9em;
+		font-weight: bold;
+		line-height: 1em;
+		.title {
+			font-size: 1.4em;
+			line-height:1em;
+		}
+		.scale {
+			margin-top : 10px;
+			.step {
+				display : inline-block;
+				height  : 11px;
+				cursor : pointer;
+				&.active {
+					box-shadow: 0px -5px 0px #C6C6C6;
+					&.fixed {
+						box-shadow: 0px -5px 0px #555555;
+					}
+				}
+			}
+			.sticker {
+				position    : absolute;
+				border-left : 1px solid #000;
+				height      : 15px;
+				.value {
+					width      : 100px;
+					position   : absolute;
+					left       : -50px;
+					text-align : center;
+					top        : 16px;
+					font-size  : 11px;
+				}
+				&.first {
+					border-left: 0;
+				}
+			}
+		}
+		.source {
+			margin-top: 20px;
+		}
 	}
 }
 
@@ -25,50 +74,4 @@ body {
 	}
 }
 
-.legend {
-	position   : absolute;
-	bottom     : 10px;
-	right      : 0;
-	max-width  : 300px;
-	font-size  : .9em;
-	font-weight: bold;
-	line-height: 1em;
-	.title {
-		font-size: 1.4em;
-		line-height:1em;
-	}
-	.scale {
-		margin-top : 10px;
-		.step {
-			display : inline-block;
-			height  : 11px;
-			cursor : pointer;
-			&.active {
-				box-shadow: 0px -5px 0px #C6C6C6;
-				&.fixed {
-					box-shadow: 0px -5px 0px #555555;
-				}
-			}
-		}
-		.sticker {
-			position    : absolute;
-			border-left : 1px solid #000;
-			height      : 15px;
-			.value {
-				width      : 100px;
-				position   : absolute;
-				left       : -50px;
-				text-align : center;
-				top        : 16px;
-				font-size  : 11px;
-			}
-			&.first {
-				border-left: 0;
-			}
-		}
-	}
-	.source {
-		margin-top: 20px;
-	}
-}
 // EOF

@@ -6,7 +6,7 @@
 # License : GNU General Public License
 # -----------------------------------------------------------------------------
 # Creation : 04-Jul-2014
-# Last mod : 14-Jul-2014
+# Last mod : 16-Jul-2014
 # -----------------------------------------------------------------------------
 window.microcreditDRC = {} unless window.microcreditDRC?
 # -----------------------------------------------------------------------------
@@ -181,7 +181,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			.size([@width, @height])
 			.on "tick", (e) ->
 				that.groupSymbols.selectAll("circle")
-					.each(AfricaMap.collide(data_story, e.alpha))
+					.each(microcreditDRC.Utils.collide(data_story, e.alpha))
 					.attr 'transform', (d)->
 						transformation = ""
 						transformation += that.computeZoomTranslation(story)
@@ -218,7 +218,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		_.each domains, (step, i) ->
 			size_by_value = false  if (domains[i] - domains[i - 1]) / domains_delta * legend_size < 20  if i > 0
 			return
-		rounded_domains   = AfricaMap.smartRound(domains, 0)
+		rounded_domains   = microcreditDRC.Utils.smartRound(domains, 0)
 		_.each domains, (step, index) ->
 			# for each segment, we adding a domain in the legend and a sticker
 			if index < domains.length - 1
@@ -264,50 +264,5 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				$step.add($sticker).hover(select, deselect)
 				that.uis.scale.append $step
 				offset += size
-
-	#     Rounds a set of unique numbers to the lowest
-	#     precision where the values remain unique
-	@smartRound = (values, add_precision) ->
-		round = (b) ->
-			+(b.toFixed(precision))
-		result = []
-		precision = 0
-		nonEqual = true
-		loop
-			result = _.map(values, round)
-			precision++
-			break unless _.uniq(result, true).length < values.length
-		if add_precision
-			precision += add_precision - 1
-			result = _.map(values, round)
-		result
-
-	@collide = (node, alpha) ->
-		quadtree = d3.geom.quadtree(node)
-		return (d) ->
-			r = d.radius
-			nx1 = d.x - r
-			nx2 = d.x + r
-			ny1 = d.y - r
-			ny2 = d.y + r
-			d.x += (d.gx - d.x ) * alpha * 0.1
-			d.y += (d.gy - d.y ) * alpha * 0.1
-			quadtree.visit((quad, x1, y1, x2, y2) ->
-				if (quad.point && quad.point != d)
-					x = d.x - quad.point.x
-					y = d.y - quad.point.y
-					l = Math.sqrt(x * x + y * y)
-					r = d.radius + quad.point.radius
-					if l < r
-						l = (l - r) / l * alpha
-						d.x -= x *= l
-						d.y -= y *= l
-						quad.point.x += x
-						quad.point.y += y
-				return x1 > nx2 \
-					|| x2 < nx1 \
-					|| y1 > ny2 \
-					|| y2 < ny1
-			)
 
 # EOF

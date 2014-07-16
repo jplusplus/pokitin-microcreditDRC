@@ -31,6 +31,7 @@ js_all:
       - "../assets/coffee/settings.coffee"
       - "../assets/vendors/serious-toolkit/utils.coffee"
       - "../assets/vendors/serious-toolkit/widget.coffee"
+      - "../assets/coffee/utils.coffee"
       - "../assets/coffee/navigation.coffee"
       - "../assets/coffee/story.coffee"
       - "../assets/coffee/map.coffee"
