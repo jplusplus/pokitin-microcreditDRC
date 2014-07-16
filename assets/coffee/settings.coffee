@@ -27,16 +27,11 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 
 microcreditDRC.settings =
 
-	storyboard : "static/storyboard.json"
+	show_navigation : true
 
-	show_navigation : false
+	storyboard      : "static/storyboard.json"
 
 	map:
-		data :
-			microfinance_africa   : "static/data/microfinance_africa.csv"
-			microfinance_geocoded : "static/data/microfinance_geocoded.csv"
-			microfinance_kivus    : "static/data/microfinance_kivus.csv"
-			geojson               : "static/map/africa.topo.json"
 		transition_duration      : 750
 		africa_bounds            : [[-20.2,-37.3],[54.3,39.0]]
 		default_fill_color       : "#BEBEBE"
@@ -57,5 +52,10 @@ microcreditDRC.settings =
 				adjust:
 					x:  40
 					y: -10 
+		data :
+			microfinance_africa   : "static/data/microfinance_africa.csv"
+			microfinance_geocoded : "static/data/microfinance_geocoded.csv"
+			microfinance_kivus    : "static/data/microfinance_kivus.csv"
+			geojson               : "static/map/africa.topo.json"
 
 # EOF

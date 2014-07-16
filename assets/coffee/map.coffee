@@ -196,7 +196,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			.size([@width, @height])
 			.on "tick", (e) ->
 				that.groupSymbols.selectAll("circle")
-					.each(microcreditDRC.Utils.collide(data_story, e.alpha))
+					.each(microcreditDRC.Utils.collide(data_story, e.alpha*1.5))
 					.attr 'transform', (d)->
 						transformation = ""
 						transformation += that.computeZoomTranslation(story)
