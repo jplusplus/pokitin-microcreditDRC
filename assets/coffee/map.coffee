@@ -148,6 +148,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				return color
 		# tooltip
 		@groupPaths.selectAll('path').each (d) ->
+			self = this
 			if countries[d.properties.Name]?
 				params = 
 					# show the tooltip if the country name is in story.tooltip
@@ -155,7 +156,8 @@ class microcreditDRC.AfricaMap extends serious.Widget
 					position : if story.tooltip? and d.properties.Name in story.tooltip then null else undefined
 					content  :
 						text: "#{d.properties.Name}<br/><strong>#{countries[d.properties.Name]}</strong>"
-				$(this).qtip _.defaults(params, CONFIG.tooltip_style)
+				do (self, params) ->
+					setTimeout((-> $(self).qtip _.defaults(params, CONFIG.tooltip_style)), CONFIG.transition_duration)
 		@showLegend(scale)
 
 	renderBubble: (story) =>
@@ -227,7 +229,6 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			if !!story.value
 				legend_text += "<br><strong>#{d[story.value]}</strong>"
 			params = 
-				# show the tooltip if the country name is in story.tooltip
 				content :
 					text : legend_text
 			$(this).qtip _.defaults(params, CONFIG.tooltip_style)

@@ -39,7 +39,7 @@ settings:
   contents:
     - contents:
       - "../assets/coffee/settings.coffee"
-      output: gen/coffee.js
+      output: gen/settings.js
       filters: coffeescript
 
 # EOF
