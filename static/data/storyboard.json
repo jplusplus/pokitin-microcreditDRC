@@ -22,7 +22,8 @@
 			"data"             : "microfinance_geocoded",
 			"bubble_highlight" : ["MEC IDECE/Kinshsa", "COOPEC BUKAVU/KINSHASA"],
 			"map_highlight"    : ["Democratic Republic of the Congo"],
-			"zoom"             : {"center" : [21.204934597,-5.3317697525], "scale": 3}
+			"zoom"             : {"center" : [21.204934597,-5.3317697525], "scale": 3},
+			"name"             : "Dénomination"
 		}
 	},
 	{
@@ -32,7 +33,8 @@
 			"data"      : "microfinance_geocoded",
 			"bubble_highlight" : ["COOCEC-KIVU"],
 			"map_highlight"    : ["Democratic Republic of the Congo"],
-			"zoom"             : {"center" : [21.204934597,-5.3317697525], "scale": 3}
+			"zoom"             : {"center" : [21.204934597,-5.3317697525], "scale": 3},
+			"name"             : "Dénomination"
 		}
 	},
 	{
@@ -41,7 +43,11 @@
 		"map"  : {
 			"data"      : "microfinance_kivus",
 			"display"   : "bubble",
-			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
+			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"],
+			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
+			"name"      : "institute",
+			"value"     : "gross loan volume"
+
 		}
 	},
 	{
@@ -50,7 +56,10 @@
 		"map"  : {
 			"data"      : "microfinance_kivus",
 			"display"   : "bubble",
-			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
+			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"],
+			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
+			"name"      : "institute",
+			"value"     : "number of borrowers"
 		}
 	},
 	{
@@ -59,7 +68,10 @@
 		"map"  : {
 			"data"      : "microfinance_kivus",
 			"display"   : "bubble",
-			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"]
+			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"],
+			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
+			"name"      : "institute",
+			"value"     : "average loan"
 		}
 	}
 ]

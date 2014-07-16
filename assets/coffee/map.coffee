@@ -101,22 +101,23 @@ class microcreditDRC.AfricaMap extends serious.Widget
 	setStory: (story) =>
 		# wait data
 		return setTimeout((=> @setStory(story)), 100) unless @ready
-		@story = story
 		# reset map
 		@groupPaths.selectAll('path')
 			.attr 'fill', CONFIG.default_fill_color
-		@groupSymbols.selectAll("circle").remove()
+		# remove circle only if the dataset has been changed
+		@groupSymbols.selectAll("circle").remove() if @story? and @story.data != story.data
 		# reset tooltip, destroy everything
 		$("circle").qtip('destroy', true)
 		$("path") .qtip('destroy', true)
+		# reset force
 		@force.stop() if @force
 		# reset legend
 		@uis.scale.html("")
 		# make a zoom
-		# zoom + move
 		@groupPaths.selectAll('path')
 			.transition().duration(CONFIG.transition_duration)
 				.attr("transform", @computeZoomTranslation(story))
+		@story = story
 		# detect the type of map
 		switch story.display
 			when "choropleth"
@@ -145,6 +146,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				# save color in element properties
 				d.color = color
 				return color
+		# tooltip
 		@groupPaths.selectAll('path').each (d) ->
 			if countries[d.properties.Name]?
 				params = 
@@ -160,11 +162,22 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		that = this
 		data_story = @data[story.data]
 		# prepare data
+		data_story = data_story.filter((d) -> !!d.longitude and !!d.latitude) # remove ungeolocated points
+		data_story = data_story.filter((d) -> !story.value? or  !!d[story.value]) # remove points without data associated
+		# scale
+		if story.value?
+			values = data_story.map((l)-> parseFloat(l[story.value]))
+			scale  = d3.scale.linear()
+				.domain([Math.min.apply(Math, values), Math.max.apply(Math, values)])
+				.range(CONFIG.bubble_size_range)
+		# update data
 		for line in data_story
 			coord       = @projection([line.longitude, line.latitude])
 			line.gx     = coord[0]
 			line.gy     = coord[1]
 			line.radius = CONFIG.bubble_default_size
+			if scale? and story.value?
+				line.radius = scale(line[story.value])
 		# color map
 		if story.map_highlight
 			@groupPaths.selectAll('path')
@@ -177,7 +190,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@force = d3.layout.force()
 			.nodes(data_story)
 			.gravity(0)
-			.charge(0)
+			.charge(-1/CONFIG.bubble_default_size)
 			.size([@width, @height])
 			.on "tick", (e) ->
 				that.groupSymbols.selectAll("circle")
@@ -186,21 +199,38 @@ class microcreditDRC.AfricaMap extends serious.Widget
 						transformation = ""
 						transformation += that.computeZoomTranslation(story)
 						transformation += "translate(#{d.x}, #{d.y})"
-						transformation += "scale(#{1/story.zoom.scale})" if story.zoom?
+						# transformation += "scale(#{1/story.zoom.scale})" if story.zoom?
 						return transformation
 		# put cirlce on the map
-		@groupSymbols.selectAll("circle").remove()
 		@symbol = @groupSymbols.selectAll("circle").data(data_story)
 		@symbol.enter()
 			.append("circle", ".all-symbols")
-				.attr("r", (d)-> d.radius)
-				.attr("fill", CONFIG.bubble_default_color)
-				.attr("stroke-width", CONFIG.bubble_default_size * 0.1)
 				.attr("stroke", "white")
+				.attr("stroke-width", CONFIG.bubble_default_size * 0.1)
+				.attr("r", 0)
 				.call(@force.drag)
 		@symbol.exit().remove()
+		# set circles properties
+		@groupSymbols.selectAll("circle")
+			.attr "fill", (d) ->
+				color = CONFIG.bubble_default_color
+				if story.bubble_highlight? and d[story.name] in story.bubble_highlight
+					color = CONFIG.bubble_highlighted_color
+				return color
+			.transition().duration(CONFIG.transition_duration)
+				.attr "r", ((d)-> d.radius)
 		# active the Force
 		@force.start()
+		# tooltip
+		@groupSymbols.selectAll('circle').each (d) ->
+			legend_text = "#{d[story.name]}"
+			if !!story.value
+				legend_text += "<br><strong>#{d[story.value]}</strong>"
+			params = 
+				# show the tooltip if the country name is in story.tooltip
+				content :
+					text : legend_text
+			$(this).qtip _.defaults(params, CONFIG.tooltip_style)
 
 	showLegend : (scale) =>
 		that = this
