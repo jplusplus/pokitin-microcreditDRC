@@ -25,13 +25,20 @@ js_all:
     - "../static/vendors/chroma.js"
     - "../static/vendors/qtip2/jquery.qtip.min.js"
     - contents:
-      - "../assets/coffee/settings.coffee"
       - "../assets/vendors/serious-toolkit/utils.coffee"
       - "../assets/vendors/serious-toolkit/widget.coffee"
       - "../assets/coffee/utils.coffee"
       - "../assets/coffee/navigation.coffee"
       - "../assets/coffee/story.coffee"
       - "../assets/coffee/map.coffee"
+      output: gen/coffee.js
+      filters: coffeescript
+
+settings: 
+  output: gen/settings.js
+  contents:
+    - contents:
+      - "../assets/coffee/settings.coffee"
       output: gen/coffee.js
       filters: coffeescript
 

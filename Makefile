@@ -27,9 +27,10 @@ VENV         = `pwd`/.env
 VIRTUALENV   = virtualenv
 PIP          = pip
 PYTHON       = python
+DEBUG        = True
 
 run: clean
-	. `pwd`/.env ; python $(WEBAPP)
+	. `pwd`/.env ; export DEBUG=$(DEBUG) ; python $(WEBAPP)
 
 clean:
 	$(RM) $(PYC)

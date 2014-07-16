@@ -1,11 +1,4 @@
-{% assets "js_all" %}
-	<script type="text/javascript" src="{{ ASSET_URL }}"></script>
-{% endassets %}
 
-{% block extra_js %}{% endblock %}
-
-<script type="text/javascript">
-	$(window).load(function() {
-		serious.Widget.bindAll();
-	});
-</script>
+{% assets "settings" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
+{% assets "js_all" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
+<script type="text/javascript">$(window).load(function(){serious.Widget.bindAll();});</script>
