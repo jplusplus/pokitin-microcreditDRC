@@ -1,6 +1,7 @@
 ---
 css_all: 
   output: gen/style.css
+  filters: cssmin
   contents:
     - contents:
       - "../assets/less/base.less"
@@ -11,6 +12,7 @@ css_all:
 
 js_all: 
   output: gen/scripts.js
+  filters: jsmin
   contents:
     - "../static/vendors/jquery.min.js"
     - "../static/vendors/underscore.js"
