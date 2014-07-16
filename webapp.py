@@ -65,6 +65,12 @@ def page_de():
 	response = make_response(render_template('home.jade'))
 	return response
 
+@app.route('/embeded.html')
+def embeded():
+	g.language = "en"
+	response = make_response(render_template('embeded.html'))
+	return response
+
 # -----------------------------------------------------------------------------
 #
 #    UTILS

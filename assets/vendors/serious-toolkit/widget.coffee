@@ -6,7 +6,7 @@
 # License : GNU Lesser General Public License
 # -----------------------------------------------------------------------------
 # Creation : 04-Aug-2012
-# Last mod : 14-Jul-2014
+# Last mod : 16-Jul-2014
 # -----------------------------------------------------------------------------
 # >  A Serious Toolkit for Serious Projects.
 # >  
@@ -43,6 +43,7 @@ class window.serious.Widget
 			widget_class = Widget.getWidgetClass(ui)
 			if widget_class?
 				widget = new widget_class()
+				widget_class.Instance = widget
 				widget.scope = {}
 				widget.ui    = $(ui)
 				widget.bindUI(ui)

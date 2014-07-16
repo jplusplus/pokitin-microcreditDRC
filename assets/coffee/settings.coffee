@@ -29,6 +29,8 @@ microcreditDRC.settings =
 
 	storyboard : "static/storyboard.json"
 
+	show_navigation : false
+
 	map:
 		data :
 			microfinance_africa   : "static/data/microfinance_africa.csv"

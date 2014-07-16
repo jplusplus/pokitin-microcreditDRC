@@ -33,6 +33,8 @@ class microcreditDRC.Navigation extends serious.Widget
 		q.await(@dataLoaded)
 		
 	bindUI: =>
+		# hide navigation depending of settings
+		@ui.hide() unless microcreditDRC.settings.show_navigation
 		# init the scope, visible from template with knockout.js
 		@scope.currentStory = ko.observable(0)
 		@scope.storyboard   = ko.observable({})
@@ -49,7 +51,8 @@ class microcreditDRC.Navigation extends serious.Widget
 		@scope.storyboard(storyboard)
 		@showStory()
 
-	showStory: =>
+	showStory: (story_idx) =>
+		@scope.currentStory(story_idx) if story_idx?
 		@africaMapWidget.setStory(@scope.storyboard()[@scope.currentStory()].map)
 		@storyWidget.setStory(@scope.currentStory())
 

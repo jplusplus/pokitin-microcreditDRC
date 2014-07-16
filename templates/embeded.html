@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="{{g.get('language', 'en')}}">
+
+	<head>
+		<meta charset="utf-8">{#  #}</meta>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>{% trans %}embeded microcreditDRC{% endtrans %}</title>
+
+	</head>
+
+	<style type="text/css">
+	pre {
+		background-color: #5C2B00;
+		color: #E7A2A2;
+	}
+	.important {
+		color: white;
+	}
+	</style>
+
+	<body class="use-base">
+		<h1>How to embed it in an iframe</h1>
+		<pre>
+
+	&lt;iframe id="map-iframe" src="{{ url_for("index", _external=True) }}" width="100%" height="600" frameborder="0"&gt;&lt;/iframe&gt;
+		</pre>
+		<iframe id="map-iframe" src="{{ url_for("index", _external=True) }}" width="100%" height="600" frameborder="0"></iframe>
+
+
+		<h2>API</h2>
+
+		<pre>
+
+	&lt;script type="text/javascript"&gt;
+		// show the previous story
+		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();</span>
+		// show the next story
+		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.next();</span>
+		// return true if there is a next story after the current story
+		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasNext();</span>
+		// return true if there is a previous story before the current story
+		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasPrevious();</span>
+		// show the specified story
+		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(story_index);</span>
+
+	&lt;/script&gt;
+		</pre>
+
+		<h2>Exemple with outiside navigation</h2>
+		<button id="previous" onclick="previous()">Previous</button>
+		<button id="next" onclick="next()">Next</button>
+		<button id="story_0" onclick="go(0)">1</button>
+		<button id="story_1" onclick="go(1)">2</button>
+		<button id="story_2" onclick="go(2)">3</button>
+		<button id="story_3" onclick="go(3)">4</button>
+		<button id="story_4" onclick="go(4)">5</button>
+		<button id="story_5" onclick="go(5)">6</button>
+		<button id="story_6" onclick="go(6)">7</button>
+		<pre>
+
+	&lt;script type="text/javascript"&gt;
+
+		var iframe = document.getElementById("map-iframe");
+
+		var previous = function() {
+			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();</span>
+		};
+
+		var next = function() {
+			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.next();</span>
+		};
+
+		var go = function(idx) {
+			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(idx);</span>
+		};
+
+	&lt;/script&gt;
+		</pre>
+
+		<script type="text/javascript">
+			var iframe = document.getElementById("map-iframe");
+
+			var previous = function() {
+				iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();
+			};
+
+			var next = function() {
+				iframe.contentWindow.microcreditDRC.Navigation.Instance.next();
+			};
+
+			var go = function(idx) {
+				iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(idx);
+		};
+
+		</script>
+	</body>
+</html>
