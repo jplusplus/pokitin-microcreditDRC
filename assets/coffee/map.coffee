@@ -39,7 +39,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@UIS = 
 			legend : ".legend"
 			scale  : ".legend .scale"
-		@container    = $(".africa-container", ui)
+			map_container : ".africa-container"
 		@svg          = d3.select(".africa-container").insert("svg" , ":first-child")
 		@group        = @svg.append("g")
 		@groupPaths   = @group.append("g").attr("class", "all-path")
@@ -57,8 +57,12 @@ class microcreditDRC.AfricaMap extends serious.Widget
 
 	relayout: =>
 		# compute size
-		@width  = @container.width()
-		@height = $(window).height() - @container.offset().top - 67
+		@width  = @uis.map_container.width()
+		@height = $(window).height() - @uis.map_container.offset().top
+		if microcreditDRC.settings.show_navigation
+			# FIXME : to be dynamic
+			@height -= 67
+		@uis.map_container.css("height", @height)
 		@svg
 			.attr("width" , @width)
 			.attr("height", @height)
@@ -156,7 +160,6 @@ class microcreditDRC.AfricaMap extends serious.Widget
 					position : if story.tooltip? and d.properties.Name in story.tooltip then {target: d3.select(d), adjust: {x:-50, y:-50}} else undefined
 					content  :
 						text: "#{d.properties.Name}<br/><strong>#{countries[d.properties.Name]}</strong>"
-				console.log params
 				do (self, params) ->
 					setTimeout((-> $(self).qtip _.defaults(params, CONFIG.tooltip_style)), CONFIG.transition_duration)
 		@showChoroplethLegend(scale)
