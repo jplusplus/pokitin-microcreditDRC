@@ -68,7 +68,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			.translate([0,0])
 		b = [@projection(CONFIG.africa_bounds[0]), @projection(CONFIG.africa_bounds[1])]
 		w = (b[1][0] - b[0][0]) / @width
-		h = (b[1][1] - b[0][1]) / @height
+		h = (b[1][1] - b[0][1]) / (@height - 46) # 46 height of legend
 		s = .95 / Math.max(Math.abs(w), Math.abs(h))
 		left_offset = @width - (s * (b[1][0] - b[0][0])) # align right
 		t = [-s * b[0][0] + left_offset, (@height - s * (b[1][1] + b[0][1])) / 2]
@@ -240,7 +240,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@uis.scale.html("")
 		# show value legend
 		domains       = scale.domain()
-		legend_size   = 300
+		legend_size   = CONFIG.legend_max_width
 		domains_delta = domains[domains.length - 1] - domains[0]
 		offset        = 0
 		max_height    = 0

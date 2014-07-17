@@ -38,6 +38,7 @@ microcreditDRC.settings =
 		highlighted_fill_color   : "#0080FF"
 		choropleth_bucket_number : 4
 		choropleth_color_scale   : ['rgb(158,202,225)','rgb(107,174,214)','rgb(66,146,198)','rgb(33,113,181)','rgb(8,69,148)', "#001261"] # http://colorbrewer2.org/?type=sequential&scheme=Blues&n=7
+		legend_max_width         : 300
 		bubble_default_color     : "#4D4D4D"
 		bubble_highlighted_color : "#FF5C5C"
 		bubble_default_size      : 1

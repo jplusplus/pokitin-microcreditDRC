@@ -39,22 +39,20 @@
 
 			<h2>API</h2>
 
-			<pre>
+	<pre>&lt;script type="text/javascript"&gt;
 
-		&lt;script type="text/javascript"&gt;
-			// show the previous story
-			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();</span>
-			// show the next story
-			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.next();</span>
-			// return true if there is a next story after the current story
-			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasNext();</span>
-			// return true if there is a previous story before the current story
-			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasPrevious();</span>
-			// show the specified story
-			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(story_index);</span>
+	// show the previous story
+	<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();</span>
+	// show the next story
+	<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.next();</span>
+	// return true if there is a next story after the current story
+	<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasNext();</span>
+	// return true if there is a previous story before the current story
+	<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasPrevious();</span>
+	// show the specified story
+	<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(story_index);</span>
 
-		&lt;/script&gt;
-			</pre>
+&lt;/script&gt;</pre>
 
 			<h2>Exemple with outisided navigation</h2>
 
@@ -69,26 +67,25 @@
 			<button               onclick="go(4)">5</button>
 			<button               onclick="go(5)">6</button>
 			<button               onclick="go(6)">7</button>
-	<pre>
+			<br/>
+			<br/>
+	<pre>&lt;script type="text/javascript"&gt;
 
-		&lt;script type="text/javascript"&gt;
+	var iframe = document.getElementById("map-iframe");
 
-			var iframe = document.getElementById("map-iframe");
+	var previous = function() {
+		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();</span>
+	};
 
-			var previous = function() {
-				<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();</span>
-			};
+	var next = function() {
+		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.next();</span>
+	};
 
-			var next = function() {
-				<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.next();</span>
-			};
+	var go = function(idx) {
+		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(idx);</span>
+	};
 
-			var go = function(idx) {
-				<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(idx);</span>
-			};
-
-		&lt;/script&gt;
-			</pre>
+&lt;/script&gt;</pre>
 		</div>
 
 		<script type="text/javascript">
