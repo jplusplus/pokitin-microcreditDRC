@@ -27,9 +27,11 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 
 microcreditDRC.settings =
 
-	show_navigation : true
+	show_navigation  : true
+	background_color : "#FAF7FF"
+	text_color       : "black"
 
-	storyboard      : "static/storyboard.json"
+	storyboard       : "static/storyboard.json"
 
 	map:
 		transition_duration      : 750
@@ -45,7 +47,7 @@ microcreditDRC.settings =
 		bubble_size_range        : [2, 6]
 		tooltip_style :
 			style: # see http://qtip2.com/options#style
-				classes : "qtip-dark qtip-tipsy"
+				classes: "qtip-dark qtip-tipsy"
 				tip:
 					corner: false
 			position:

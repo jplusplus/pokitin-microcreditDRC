@@ -26,8 +26,8 @@
 window.microcreditDRC = {} unless window.microcreditDRC?
 
 # first file called, we update the settings from the hash
-settings_in_hash        = microcreditDRC.Utils.getHashParams().settings
-microcreditDRC.settings = _.defaults(JSON.parse(settings_in_hash), microcreditDRC.settings) if settings_in_hash?
+settings_in_hash = microcreditDRC.Utils.getHashParams().settings
+$.extend(true, microcreditDRC.settings, JSON.parse(settings_in_hash)) if settings_in_hash?
 
 class microcreditDRC.Navigation extends serious.Widget
 
@@ -35,7 +35,11 @@ class microcreditDRC.Navigation extends serious.Widget
 		# load storyboard
 		q = queue().defer(d3.json, microcreditDRC.settings.storyboard)
 		q.await(@dataLoaded)
+
 	bindUI: =>
+		# set the background color
+		$("body").css("background-color", microcreditDRC.settings.background_color)
+		$("body").css("color", microcreditDRC.settings.text_color)
 		# hide navigation depending of settings
 		@ui.hide() unless microcreditDRC.settings.show_navigation
 		# init the scope, visible from template with knockout.js
