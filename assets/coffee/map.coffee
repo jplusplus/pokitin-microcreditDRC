@@ -54,6 +54,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		# Bind events
 		$(window).resize _.debounce(@relayout, 300)
 		@ready = true
+		$("body").removeClass("loading")
 
 	relayout: =>
 		# compute size

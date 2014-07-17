@@ -10,7 +10,16 @@ body {
 	-moz-user-select      : none;
 	-ms-user-select       : none;
 	user-select           : none;
+
+	transition-duration : 2s;
+	transition-properties : opacity;
+	opacity: 1;
+	&.loading {
+		overflow: hidden;
+		opacity: 0;
+	}
 }
+
 
 .navigation {
 	text-align: center;

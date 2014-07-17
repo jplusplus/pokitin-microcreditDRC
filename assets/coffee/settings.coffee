@@ -51,8 +51,8 @@ microcreditDRC.settings =
 			position:
 				target: 'mouse'
 				adjust:
-					x:  40
-					y: -10
+					x:  -80
+					y: -50
 		data :
 			microfinance_africa   : "static/data/microfinance_africa.csv"
 			microfinance_geocoded : "static/data/microfinance_geocoded.csv"
