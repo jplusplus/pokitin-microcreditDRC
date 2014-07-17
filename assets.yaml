@@ -5,7 +5,7 @@ css_bootstrap:
   filters: cssmin
   contents:
     - contents:
-      - "../assets/less/base.less"
+      - "../assets/vendors/bootstrap-3.2.0/less/bootstrap.less"
       filters: less
       depends: "../assets/vendors/bootstrap-3.2.0/*.less"
       output: gen/bootstrap-less.css
