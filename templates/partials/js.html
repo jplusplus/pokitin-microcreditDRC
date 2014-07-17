@@ -1,4 +1,4 @@
 
-{% assets "settings" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
-{% assets "js_all" %}<script type="text/javascript" src="{{ ASSET_URL }}"></script>{% endassets %}
+{% assets "settings" %}<script type="text/javascript" src="{{ ASSET_URL | relative_url }}"></script>{% endassets %}
+{% assets "js_all" %}<script type="text/javascript" src="{{ ASSET_URL | relative_url }}"></script>{% endassets %}
 <script type="text/javascript">$(window).load(function(){serious.Widget.bindAll();});</script>
