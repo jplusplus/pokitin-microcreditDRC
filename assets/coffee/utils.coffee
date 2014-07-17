@@ -72,4 +72,12 @@ class microcreditDRC.Utils
 					|| y2 < ny1
 			)
 
+	@getHashParams = ->
+		hashParams = {}
+		a = /\+/g # Regex for replacing addition symbol with a space
+		r = /([^&;=]+)=?([^&;]*)/g
+		d = (s) -> decodeURIComponent s.replace(a, " ")
+		q = window.location.hash.substring(1)
+		hashParams[d(e[1])] = d(e[2])  while e = r.exec(q)
+		return hashParams
 # EOF

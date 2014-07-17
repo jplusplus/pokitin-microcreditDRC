@@ -25,13 +25,16 @@
 
 window.microcreditDRC = {} unless window.microcreditDRC?
 
+# first file called, we update the settings from the hash
+settings_in_hash        = microcreditDRC.Utils.getHashParams().settings
+microcreditDRC.settings = _.defaults(JSON.parse(settings_in_hash), microcreditDRC.settings) if settings_in_hash?
+
 class microcreditDRC.Navigation extends serious.Widget
 
 	constructor : ->
 		# load storyboard
 		q = queue().defer(d3.json, microcreditDRC.settings.storyboard)
 		q.await(@dataLoaded)
-		
 	bindUI: =>
 		# hide navigation depending of settings
 		@ui.hide() unless microcreditDRC.settings.show_navigation
