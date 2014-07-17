@@ -68,7 +68,11 @@ def page_de():
 @app.route('/embeded.html')
 def embeded():
 	g.language = "en"
-	response = make_response(render_template('embeded.html'))
+	settings_content = "".join(open("assets/coffee/settings.coffee").readlines())
+	start_to         = settings_content.index("microcreditDRC.settings =")
+	end_to           = settings_content.index("# EOF")
+	settings_content = settings_content[start_to:end_to]
+	response = make_response(render_template('embeded.html', settings_content=settings_content))
 	return response
 
 # -----------------------------------------------------------------------------

@@ -9,74 +9,87 @@
 
 	</head>
 
-	<style type="text/css">
-	pre {
-		background-color: #5C2B00;
-		color: #E7A2A2;
-	}
-	.important {
-		color: white;
-	}
-	</style>
+	{% assets "css_bootstrap" %}
+		<link rel="stylesheet" href="{{ ASSET_URL | relative_url }}" type="text/css" />
+	{% endassets %}
 
 	<body class="use-base">
-		<h1>How to embed it in an iframe</h1>
-		<pre>
 
-	&lt;iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={"show_navigation":false}" width="100%" height="600" frameborder="0"&gt;&lt;/iframe&gt;
-		</pre>
-		<iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={&quot;show_navigation&quot;:false}" width="100%" height="600" frameborder="0"></iframe>
+		<div class="container">
 
+			<h1>How to embed it in an iframe</h1>
 
-		<h2>API</h2>
+			<pre>&lt;iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={"show_navigation":false}" width="100%" height="600" frameborder="0"&gt;&lt;/iframe&gt;</pre>
 
-		<pre>
+			<iframe src="{{ url_for("index", _external=True) }}#settings={&quot;show_navigation&quot;:false}" width="100%" height="600" frameborder="0"></iframe>
 
-	&lt;script type="text/javascript"&gt;
-		// show the previous story
-		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();</span>
-		// show the next story
-		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.next();</span>
-		// return true if there is a next story after the current story
-		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasNext();</span>
-		// return true if there is a previous story before the current story
-		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasPrevious();</span>
-		// show the specified story
-		<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(story_index);</span>
+			<h2>Configure</h2>
 
-	&lt;/script&gt;
-		</pre>
+			<h3>Default settings</h3>
 
-		<h2>Exemple with outisided navigation</h2>
-		<button id="previous" onclick="previous()">Previous</button>
-		<button id="next" onclick="next()">Next</button>
-		<button id="story_0" onclick="go(0)">1</button>
-		<button id="story_1" onclick="go(1)">2</button>
-		<button id="story_2" onclick="go(2)">3</button>
-		<button id="story_3" onclick="go(3)">4</button>
-		<button id="story_4" onclick="go(4)">5</button>
-		<button id="story_5" onclick="go(5)">6</button>
-		<button id="story_6" onclick="go(6)">7</button>
-		<pre>
+			static/gen/settings.js
 
-	&lt;script type="text/javascript"&gt;
+			<pre>{{ settings_content }}</pre>
 
-		var iframe = document.getElementById("map-iframe");
+			<h3>Customize</h3>
 
-		var previous = function() {
+			You can overwrite settings in the url hash like in the previous iframe.
+
+			<pre>&lt;iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#<strong>settings={"show_navigation":false}"</strong> width="100%" height="600" frameborder="0"&gt;&lt;/iframe&gt;</pre>
+
+			<h2>API</h2>
+
+			<pre>
+
+		&lt;script type="text/javascript"&gt;
+			// show the previous story
 			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();</span>
-		};
-
-		var next = function() {
+			// show the next story
 			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.next();</span>
-		};
+			// return true if there is a next story after the current story
+			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasNext();</span>
+			// return true if there is a previous story before the current story
+			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.hasPrevious();</span>
+			// show the specified story
+			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(story_index);</span>
 
-		var go = function(idx) {
-			<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(idx);</span>
-		};
+		&lt;/script&gt;
+			</pre>
 
-	&lt;/script&gt;
-		</pre>
+			<h2>Exemple with outisided navigation</h2>
+
+			<iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={&quot;show_navigation&quot;:false}" width="100%" height="300" frameborder="0"></iframe>
+
+			<button id="previous" onclick="previous()">Previous</button>
+			<button id="next"     onclick="next()">Next</button>
+			<button               onclick="go(0)">1</button>
+			<button               onclick="go(1)">2</button>
+			<button               onclick="go(2)">3</button>
+			<button               onclick="go(3)">4</button>
+			<button               onclick="go(4)">5</button>
+			<button               onclick="go(5)">6</button>
+			<button               onclick="go(6)">7</button>
+	<pre>
+
+		&lt;script type="text/javascript"&gt;
+
+			var iframe = document.getElementById("map-iframe");
+
+			var previous = function() {
+				<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.previous();</span>
+			};
+
+			var next = function() {
+				<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.next();</span>
+			};
+
+			var go = function(idx) {
+				<span class="important">iframe.contentWindow.microcreditDRC.Navigation.Instance.showStory(idx);</span>
+			};
+
+		&lt;/script&gt;
+			</pre>
+		</div>
 
 		<script type="text/javascript">
 			var iframe = document.getElementById("map-iframe");

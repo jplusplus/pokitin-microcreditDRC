@@ -153,12 +153,13 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				params = 
 					# show the tooltip if the country name is in story.tooltip
 					show     : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
-					position : if story.tooltip? and d.properties.Name in story.tooltip then null else undefined
+					position : if story.tooltip? and d.properties.Name in story.tooltip then {target: d3.select(d), adjust: {x:-50, y:-50}} else undefined
 					content  :
 						text: "#{d.properties.Name}<br/><strong>#{countries[d.properties.Name]}</strong>"
+				console.log params
 				do (self, params) ->
 					setTimeout((-> $(self).qtip _.defaults(params, CONFIG.tooltip_style)), CONFIG.transition_duration)
-		@showLegend(scale)
+		@showChoroplethLegend(scale)
 
 	renderBubble: (story) =>
 		that = this
@@ -183,7 +184,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		# color map
 		if story.map_highlight
 			@groupPaths.selectAll('path')
-				.attr 'fill', (d) -> 
+				.attr 'fill', (d) ->
 					if d.properties.Name in story.map_highlight
 						return CONFIG.highlighted_fill_color
 					else
@@ -233,7 +234,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 					text : legend_text
 			$(this).qtip _.defaults(params, CONFIG.tooltip_style)
 
-	showLegend : (scale) =>
+	showChoroplethLegend : (scale) =>
 		that = this
 		# remove old legend
 		@uis.scale.html("")

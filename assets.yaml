@@ -1,4 +1,16 @@
 ---
+
+css_bootstrap: 
+  output: gen/bootstrap.css
+  filters: cssmin
+  contents:
+    - contents:
+      - "../assets/less/base.less"
+      filters: less
+      depends: "../assets/vendors/bootstrap-3.2.0/*.less"
+      output: gen/bootstrap-less.css
+      debug : false
+
 css_all: 
   output: gen/style.css
   filters: cssmin
