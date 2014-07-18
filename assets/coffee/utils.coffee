@@ -44,7 +44,7 @@ class microcreditDRC.Utils
 			result = _.map(values, round)
 		result
 
-	@collide = (node, alpha) ->
+	@collide = (node, alpha, transformation) ->
 		quadtree = d3.geom.quadtree(node)
 		return (d) ->
 			r = d.radius

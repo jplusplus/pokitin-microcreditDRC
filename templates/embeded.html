@@ -17,13 +17,13 @@
 
 		<div class="container">
 
-			<h1>Notes to developer - Micro Credit in DRC</h1>
+			<h1>Notes to Developer - Micro Credit in DRC</h1>
 
 			<h2>How to install</h2>
 
-			<pre>&lt;iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={"show_navigation":false}" width="100%" height="600" frameborder="0"&gt;&lt;/iframe&gt;</pre>
+			<pre>&lt;iframe id="map-iframe" src="{{ url_for("index", _external=True) }}" width="100%" height="600" frameborder="0"&gt;&lt;/iframe&gt;</pre>
 
-			<iframe src="{{ url_for("index", _external=True) }}#settings={&quot;show_navigation&quot;:false}" width="100%" height="600" frameborder="0"></iframe>
+			<iframe src="{{ url_for("index", _external=True) }}" width="100%" height="600" frameborder="0"></iframe>
 
 			<h2>How to Configure</h2>
 
@@ -35,7 +35,7 @@
 
 			<h3>Customize</h3>
 
-			You can overwrite settings in the url hash like in the next iframe or directly in the file <strong>static/gen/settings.js</strong>.
+			You can overwrite settings in the url hash like in the next iframe or directly in the file <strong>static/gen/settings.js</strong>.<br/>See bellow the result.
 
 			<pre>&lt;iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={
 	&quot;show_navigation&quot;:false,
@@ -76,7 +76,7 @@
 			This is an iframe
 			<iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={&quot;show_navigation&quot;:false, &quot;background_color&quot;:&quot;rgb(75, 56, 50)&quot;, &quot;text_color&quot;:&quot;white&quot;, &quot;map&quot; :{ &quot;choropleth_color_scale&quot; : [&quot;rgb(255,255,212)&quot;,&quot;rgb(254,227,145)&quot;,&quot;rgb(254,196,79)&quot;,&quot;rgb(254,153,41)&quot;,&quot;rgb(236,112,20)&quot;,&quot;rgb(204,76,2)&quot;,&quot;rgb(140,45,4)&quot;]}}" width="100%" height="300" frameborder="0"></iframe>
 
-			Now control the map with these outsided buttons<br/>
+			And you can control the map with these outsided buttons<br/>
 			<button id="previous" onclick="previous()">Previous</button>
 			<button id="next"     onclick="next()">Next</button>
 			<button               onclick="go(0)">1</button>

@@ -44,7 +44,7 @@ microcreditDRC.settings =
 		bubble_default_color     : "#4D4D4D"
 		bubble_highlighted_color : "#FF5C5C"
 		bubble_default_size      : 1
-		bubble_size_range        : [2, 6]
+		bubble_size_range        : [2, 5]
 		tooltip_style :
 			style: # see http://qtip2.com/options#style
 				classes: "qtip-dark qtip-tipsy"
@@ -53,7 +53,7 @@ microcreditDRC.settings =
 			position:
 				target: 'mouse'
 				adjust:
-					x:  -80
+					x: -80
 					y: -50
 		data :
 			microfinance_africa   : "static/data/microfinance_africa.csv"

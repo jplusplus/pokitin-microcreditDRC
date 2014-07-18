@@ -90,8 +90,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				.attr("d", @path)
 		@setStory(@story) if @story
 
-	computeZoomTranslation: (story) =>
-		### Return the translation instruction as string ex: "translate(1,2)scale(1)"" ###
+	computeZoom: (story) =>
 		scale    = 1
 		offset_y = 0
 		offset_x = 0
@@ -100,7 +99,12 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			center    = @projection(story.zoom.center)
 			offset_x  = - (center[0] * scale - @width / 2)
 			offset_y  = - (center[1] * scale - @height / 2)
-		transformation = "translate(#{offset_x},#{offset_y})scale(#{scale})"
+		return {offset_x: offset_x, offset_y: offset_y, scale:scale}
+
+	computeZoomTranslation: (story) =>
+		trans = @computeZoom(story)
+		### Return the translation instruction as string ex: "translate(1,2)scale(1)"" ###
+		transformation = "translate(#{trans.offset_x},#{trans.offset_y})scale(#{trans.scale})"
 		return transformation
 
 	setStory: (story) =>
@@ -118,6 +122,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@force.stop() if @force
 		# reset legend
 		@uis.scale.html("")
+		$("g.scale", @ui).remove()
 		# make a zoom
 		@groupPaths.selectAll('path')
 			.transition().duration(CONFIG.transition_duration)
@@ -168,6 +173,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 	renderBubble: (story) =>
 		that = this
 		data_story = @data[story.data]
+		trans = that.computeZoom(story)
 		# prepare data
 		data_story = data_story.filter((d) -> !!d.longitude and !!d.latitude) # remove ungeolocated points
 		data_story = data_story.filter((d) -> !story.value? or  !!d[story.value]) # remove points without data associated
@@ -201,7 +207,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			.size([@width, @height])
 			.on "tick", (e) ->
 				that.groupSymbols.selectAll("circle")
-					.each(microcreditDRC.Utils.collide(data_story, e.alpha*1.5))
+					.each(microcreditDRC.Utils.collide(data_story, e.alpha*1.5, that.computeZoom(story)))
 					.attr 'transform', (d)->
 						transformation = ""
 						transformation += that.computeZoomTranslation(story)
@@ -215,7 +221,6 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				.attr("stroke", "white")
 				.attr("stroke-width", CONFIG.bubble_default_size * 0.1)
 				.attr("r", 0)
-				.call(@force.drag)
 		@symbol.exit().remove()
 		# set circles properties
 		@groupSymbols.selectAll("circle")
@@ -233,11 +238,37 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			legend_text = "#{d[story.name]}"
 			if !!story.value
 				legend_text += "<br><strong>#{d[story.value]}</strong>"
-			params = 
+			params =
 				content :
 					text : legend_text
 			$(this).qtip _.defaults(params, CONFIG.tooltip_style)
-
+		# legend
+		if story.value?
+			legend = @groupPaths.append("g")
+				.attr("class", "scale")
+				.attr("transform", "translate(" + (@width - 80) + "," + (@height - 20) + ")")
+				.selectAll("g")
+					.data([Math.max.apply(Math, values), Math.min.apply(Math, values)])
+				.enter().append("g")
+			legend.append("circle")
+				.attr("cy", ((d) -> return -scale(d) * trans.scale))
+				.attr("fill", CONFIG.bubble_default_color)
+				.attr("stroke-width", 1)
+				.attr("stroke", "white")
+				.attr "r", (d) -> return scale(d) * trans.scale
+			text = legend.append("text")
+				.attr("y", ((d) -> return -2 * scale(d) * trans.scale))
+				.attr("x", ((d) -> return scale(d) * trans.scale))
+				.attr("dy", "1em")
+				.attr("fill", microcreditDRC.settings.background_color)
+				.text(d3.format(".2s"))
+			# padding = 20
+			rect = legend.insert("rect", ":first-child")
+				.attr("x", ((d) -> return scale(d) * trans.scale))
+				.attr("y", ((d) -> return -2 * scale(d) * trans.scale))
+				.attr("width",  (d) -> d3.select(d3.select(this)[0][0].parentNode).select("text").node().getBBox().width )
+				.attr("height", (d) -> d3.select(d3.select(this)[0][0].parentNode).select("text").node().getBBox().height)
+				.style("fill", microcreditDRC.settings.text_color)
 	showChoroplethLegend : (scale) =>
 		that = this
 		# remove old legend
@@ -283,7 +314,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 					$sticker.remove()
 				# add hover effect to highlight regions
 				select = (e, fix=false) =>
-					$(".step").removeClass("active fixed")
+					$(".step", @ui).removeClass("active fixed")
 					$target = $(e.target)
 					$target.addClass("active")
 					$target.addClass("fixed") if fix
