@@ -176,7 +176,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@uis.legend_scale.html("")
 		# show value legend
 		domains       = scale.domain()
-		legend_size   = CONFIG.legend_max_width
+		legend_size   = Math.min(CONFIG.legend_max_width, @width)
 		domains_delta = domains[domains.length - 1] - domains[0]
 		offset        = 0
 		max_height    = 0
