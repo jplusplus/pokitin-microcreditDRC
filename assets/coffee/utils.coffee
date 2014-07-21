@@ -44,7 +44,7 @@ class microcreditDRC.Utils
 			result = _.map(values, round)
 		result
 
-	@collide = (node, alpha, transformation) ->
+	@collide = (node, alpha) ->
 		quadtree = d3.geom.quadtree(node)
 		return (d) ->
 			r = d.radius
@@ -58,7 +58,7 @@ class microcreditDRC.Utils
 				if (quad.point && quad.point != d)
 					x = d.x - quad.point.x
 					y = d.y - quad.point.y
-					l = Math.sqrt(x * x + y * y)
+					l = Math.sqrt(Math.max(x * x + y * y, 1))
 					r = d.radius + quad.point.radius
 					if l < r
 						l = (l - r) / l * alpha

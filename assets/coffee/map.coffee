@@ -251,6 +251,8 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			coord       = @projection([line.longitude, line.latitude])
 			line.gx     = coord[0]
 			line.gy     = coord[1]
+			line.x = line.gx unless line.x?
+			line.y = line.gy unless line.y?
 			line.radius = CONFIG.bubble_default_size
 			if scale? and story.value?
 				line.radius = scale(line[story.value])
@@ -270,7 +272,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			.size([@width, @height])
 			.on "tick", (e) ->
 				that.groupSymbols.selectAll("circle")
-					.each(microcreditDRC.Utils.collide(data_story, e.alpha*1.5, that.computeZoom(story)))
+					.each(microcreditDRC.Utils.collide(data_story, e.alpha))
 					.attr 'transform', (d)->
 						transformation = ""
 						transformation += that.computeZoomTranslation(story)
