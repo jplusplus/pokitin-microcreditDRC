@@ -302,7 +302,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@groupSymbols.selectAll('circle').each (d) ->
 			legend_text = "#{d[story.name]}"
 			if !!story.value
-				legend_text += "<br><strong>#{d[story.value]}</strong>"
+				legend_text += "<br><strong>#{d3.format(".4s")(d[story.value])}</strong>"
 			params =
 				content :
 					text : legend_text
