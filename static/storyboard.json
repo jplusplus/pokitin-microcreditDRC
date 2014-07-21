@@ -3,7 +3,8 @@
 		"__description_for_redactor__" : "Microfinance in Africa, Comparison country level",
 		"map"  : {
 			"display"   : "choropleth",
-			"data"      : "microfinance_africa"
+			"data"      : "microfinance_africa",
+			"legend"    : "Solde brut des prêts"
 		}
 	},
 	{
@@ -12,6 +13,7 @@
 			"display"   : "choropleth",
 			"data"      : "microfinance_africa",
 			"tooltip"   : ["Democratic Republic of the Congo"],
+			"legend"    : "Solde brut des prêts",
 			"map_highlight" : ["Democratic Republic of the Congo"]
 		}
 	},
@@ -46,7 +48,8 @@
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"],
 			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
 			"name"      : "institute",
-			"value"     : "gross loan volume"
+			"value"     : "gross loan volume",
+			"legend"    : "Solde brut des prêts"
 
 		}
 	},
@@ -59,7 +62,8 @@
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"],
 			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
 			"name"      : "institute",
-			"value"     : "number of borrowers"
+			"value"     : "number of borrowers",
+			"legend"    : "Nombre d'emprunteurs"
 		}
 	},
 	{
@@ -71,7 +75,8 @@
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"],
 			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
 			"name"      : "institute",
-			"value"     : "average loan"
+			"value"     : "average loan",
+			"legend"    : "Moyenne des prêts"
 		}
 	}
 ]

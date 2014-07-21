@@ -18,8 +18,17 @@ class microcreditDRC.AfricaMap extends serious.Widget
 
 	CONFIG = microcreditDRC.settings.map
 
-	constructor: ->
+	bindUI: (ui) =>
 		@ready = false
+		@UIS = 
+			legend        : ".legend"
+			legend_scale  : ".legend .scale"
+			legend_title  : ".legend .title"
+			map_container : ".africa-container"
+		@svg          = d3.select(".africa-container").insert("svg" , ":first-child")
+		@group        = @svg.append("g")
+		@groupPaths   = @group.append("g").attr("class", "all-path")
+		@groupSymbols = @group.append("g").attr("class", "all-symbols")
 		@data  =
 			africa     : undefined
 			geocoded   : undefined
@@ -34,16 +43,6 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				else if data_file.indexOf(".csv") > -1
 					q.defer(d3.csv, data_file)
 		q.awaitAll(@dataLoaded)
-
-	bindUI: (ui) =>
-		@UIS = 
-			legend : ".legend"
-			scale  : ".legend .scale"
-			map_container : ".africa-container"
-		@svg          = d3.select(".africa-container").insert("svg" , ":first-child")
-		@group        = @svg.append("g")
-		@groupPaths   = @group.append("g").attr("class", "all-path")
-		@groupSymbols = @group.append("g").attr("class", "all-symbols")
 
 	# save data and start the map
 	dataLoaded: (errors, results) =>
@@ -121,7 +120,8 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		# reset force
 		@force.stop() if @force
 		# reset legend
-		@uis.scale.html("")
+		@uis.legend_scale.html("")
+		@uis.legend_title.html("")
 		$("g.scale", @ui).remove()
 		# make a zoom
 		@groupPaths.selectAll('path')
@@ -134,8 +134,11 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				@renderChoropleth(story)
 			when "bubble"
 				@renderBubble(story)
+		if story.legend?
+			@uis.legend_title.html(story.legend)
 
 	renderChoropleth: (story) =>
+		that = this
 		# prepare data
 		data_story = @data[story.data]
 		keys       = data_story.map((l)-> l.country)
@@ -165,10 +168,70 @@ class microcreditDRC.AfricaMap extends serious.Widget
 					show     : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
 					position : if story.tooltip? and d.properties.Name in story.tooltip then {target: d3.select(d), adjust: {x:-50, y:-50}} else undefined
 					content  :
-						text: "#{d.properties.Name}<br/><strong>#{countries[d.properties.Name]}</strong>"
+						text: "#{d.properties.Name}<br/><strong>#{d3.format(".4s")(countries[d.properties.Name])}</strong>"
 				do (self, params) ->
 					setTimeout((-> $(self).qtip _.defaults(params, CONFIG.tooltip_style)), CONFIG.transition_duration)
-		@showChoroplethLegend(scale)
+		# /------ LEGEND 
+		# remove old legend
+		@uis.legend_scale.html("")
+		# show value legend
+		domains       = scale.domain()
+		legend_size   = CONFIG.legend_max_width
+		domains_delta = domains[domains.length - 1] - domains[0]
+		offset        = 0
+		max_height    = 0
+		size_by_value = true
+		label_size    = 0
+		@uis.legend.css "width", legend_size
+		_.each domains, (step, i) ->
+			size_by_value = false  if (domains[i] - domains[i - 1]) / domains_delta * legend_size < 20  if i > 0
+			return
+		rounded_domains   = microcreditDRC.Utils.smartRound(domains, 0)
+		_.each domains, (step, index) ->
+			# for each segment, we adding a domain in the legend and a sticker
+			if index < domains.length - 1
+				delta = domains[index + 1] - step
+				color = scale(step)
+				label = d3.format(".2s")(rounded_domains[index].toString().replace('.', ","))
+				# if index == domains.length - 2 and that.stories.get(that.story_selected).infos["append_sign"]?
+				# 	label += " #{that.stories.get(that.story_selected).infos["append_sign"]}"
+				size  = (if size_by_value then delta / domains_delta * legend_size else legend_size / (domains.length - 1))
+				# setting step
+				$step = $("<div class='step'></div>")
+				$sticker = $("<span class='sticker'></span>").appendTo(that.uis.legend_scale)
+				$step.css
+					width: size
+					"background-color": color.hex()
+				# settings ticker
+				$sticker.css "left", offset
+				if index > 0
+					label_size += size
+					if label_size < 30
+						label = ""
+					else
+						label_size = 0
+					$("<div />").addClass("value").html(label).appendTo $sticker
+				else
+					$sticker.remove()
+				# add hover effect to highlight regions
+				select = (e, fix=false) =>
+					$(".step", @ui).removeClass("active fixed")
+					$target = $(e.target)
+					$target.addClass("active")
+					$target.addClass("fixed") if fix
+					step_color = chroma.color($target.css("background-color")).hex()
+					opacity    = (path) -> if path.color == step_color then 1 else .2
+					that.groupPaths.selectAll("path")
+						.attr("opacity", opacity)
+						.classed("discret", false)
+				deselect = (e, force=false) =>
+					$(".step").removeClass("active fixed")
+					that.groupPaths.selectAll("path")
+						.attr("opacity", 1)
+						.classed("discret", (d) -> d.is_discrete)
+				$step.add($sticker).hover(select, deselect)
+				that.uis.legend_scale.append $step
+				offset += size
 
 	renderBubble: (story) =>
 		that = this
@@ -256,80 +319,18 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				.attr("stroke-width", 1)
 				.attr("stroke", "white")
 				.attr "r", (d) -> return scale(d) * trans.scale
+			padding = 5
 			text = legend.append("text")
 				.attr("y", ((d) -> return -2 * scale(d) * trans.scale))
-				.attr("x", ((d) -> return scale(d) * trans.scale))
+				.attr("x", ((d) -> return scale(d) * trans.scale + padding))
 				.attr("dy", "1em")
 				.attr("fill", microcreditDRC.settings.background_color)
 				.text(d3.format(".2s"))
-			# padding = 20
 			rect = legend.insert("rect", ":first-child")
-				.attr("x", ((d) -> return scale(d) * trans.scale))
+				.attr("x", ((d) -> return scale(d) * trans.scale + padding))
 				.attr("y", ((d) -> return -2 * scale(d) * trans.scale))
 				.attr("width",  (d) -> d3.select(d3.select(this)[0][0].parentNode).select("text").node().getBBox().width )
 				.attr("height", (d) -> d3.select(d3.select(this)[0][0].parentNode).select("text").node().getBBox().height)
 				.style("fill", microcreditDRC.settings.text_color)
-	showChoroplethLegend : (scale) =>
-		that = this
-		# remove old legend
-		@uis.scale.html("")
-		# show value legend
-		domains       = scale.domain()
-		legend_size   = CONFIG.legend_max_width
-		domains_delta = domains[domains.length - 1] - domains[0]
-		offset        = 0
-		max_height    = 0
-		size_by_value = true
-		label_size    = 0
-		@uis.legend.css "width", legend_size
-		_.each domains, (step, i) ->
-			size_by_value = false  if (domains[i] - domains[i - 1]) / domains_delta * legend_size < 20  if i > 0
-			return
-		rounded_domains   = microcreditDRC.Utils.smartRound(domains, 0)
-		_.each domains, (step, index) ->
-			# for each segment, we adding a domain in the legend and a sticker
-			if index < domains.length - 1
-				delta = domains[index + 1] - step
-				color = scale(step)
-				label = rounded_domains[index].toString().replace('.', ",")
-				# if index == domains.length - 2 and that.stories.get(that.story_selected).infos["append_sign"]?
-				# 	label += " #{that.stories.get(that.story_selected).infos["append_sign"]}"
-				size  = (if size_by_value then delta / domains_delta * legend_size else legend_size / (domains.length - 1))
-				# setting step
-				$step = $("<div class='step'></div>")
-				$sticker = $("<span class='sticker'></span>").appendTo(that.uis.scale)
-				$step.css
-					width: size
-					"background-color": color.hex()
-				# settings ticker
-				$sticker.css "left", offset
-				if index > 0
-					label_size += size
-					if label_size < 30
-						label = ""
-					else
-						label_size = 0
-					$("<div />").addClass("value").html(label).appendTo $sticker
-				else
-					$sticker.remove()
-				# add hover effect to highlight regions
-				select = (e, fix=false) =>
-					$(".step", @ui).removeClass("active fixed")
-					$target = $(e.target)
-					$target.addClass("active")
-					$target.addClass("fixed") if fix
-					step_color = chroma.color($target.css("background-color")).hex()
-					opacity    = (path) -> if path.color == step_color then 1 else .2
-					that.groupPaths.selectAll("path")
-						.attr("opacity", opacity)
-						.classed("discret", false)
-				deselect = (e, force=false) =>
-					$(".step").removeClass("active fixed")
-					that.groupPaths.selectAll("path")
-						.attr("opacity", 1)
-						.classed("discret", (d) -> d.is_discrete)
-				$step.add($sticker).hover(select, deselect)
-				that.uis.scale.append $step
-				offset += size
 
 # EOF

@@ -40,6 +40,8 @@ class microcreditDRC.Navigation extends serious.Widget
 		# set the background color
 		$("body").css("background-color", microcreditDRC.settings.background_color)
 		$("body").css("color", microcreditDRC.settings.text_color)
+		$(".color-me-from-settings").css("background-color", microcreditDRC.settings.text_color)
+		$(".color-me-from-settings").css("color", microcreditDRC.settings.background_color)
 		# hide navigation depending of settings
 		@ui.hide() unless microcreditDRC.settings.show_navigation
 		# init the scope, visible from template with knockout.js
