@@ -4,7 +4,7 @@
 		"map"  : {
 			"display"   : "choropleth",
 			"data"      : "microfinance_africa",
-			"legend"    : "solde bruts de prêts aggrégé en milliard"
+			"legend"    : "solde bruts de prêts aggrégé"
 		}
 	},
 	{
@@ -13,7 +13,7 @@
 			"display"   : "choropleth",
 			"data"      : "microfinance_africa",
 			"tooltip"   : ["Democratic Republic of the Congo"],
-			"legend"    : "solde bruts de prêts aggrégé en milliard",
+			"legend"    : "solde bruts de prêts aggrégé",
 			"map_highlight" : ["Democratic Republic of the Congo"]
 		}
 	},
