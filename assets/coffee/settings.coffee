@@ -47,7 +47,7 @@ microcreditDRC.settings =
 		bubble_size_range        : [2, 5]
 		tooltip_style :
 			style: # see http://qtip2.com/options#style
-				classes: "qtip-dark qtip-tipsy"
+				classes: "qtip-light qtip-tipsy qtip-rounded"
 				tip:
 					corner: false
 			position:
