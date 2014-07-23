@@ -1,6 +1,10 @@
 Map of microfinance in the DR Congo
 ===================================
 
+http://jplusplus.github.io/pokitin-microcreditDRC/
+
+archive : http://jplusplus.github.io/pokitin-microcreditDRC/microcreditDRC-2014-07-23.tar.bz2
+
 ## Commands
 
 ### Install
