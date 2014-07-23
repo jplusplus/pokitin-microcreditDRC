@@ -154,7 +154,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		countries  = _.object(keys, values)
 		# color scale
 		domain = [Math.min.apply(Math, values), Math.max.apply(Math, values)]
-		scale  = chroma.scale(CONFIG.choropleth_color_scale).domain(domain, CONFIG.choropleth_bucket_number)
+		scale  = chroma.scale(CONFIG.choropleth_color_scale).domain(values, CONFIG.choropleth_bucket_number, CONFIG.choropleth_type_scale)
 		@groupPaths.selectAll('path')
 			.attr 'fill', (d) -> # color countries using the color scale
 				color = scale(countries[d.properties.Name]).hex()
