@@ -32,8 +32,6 @@ $.extend(true, microcreditDRC.settings, JSON.parse(settings_in_hash)) if setting
 class microcreditDRC.Navigation extends serious.Widget
 
 	constructor : ->
-		# load story to show from hash
-		@showStory(serious.Utils.getHashParams().story) if serious.Utils.getHashParams().story?
 		# load storyboard
 		q = queue().defer(d3.json, microcreditDRC.settings.storyboard)
 		q.await(@dataLoaded)
@@ -56,6 +54,8 @@ class microcreditDRC.Navigation extends serious.Widget
 		# get the instance of other widgets
 		@africaMapWidget    = serious.Widget.ensureWidget($(".widget.map"))
 		@storyWidget        = serious.Widget.ensureWidget($(".widget.story"))
+		# load story to show from hash
+		@showStory(serious.Utils.getHashParams().story) if serious.Utils.getHashParams().story?
 
 	dataLoaded: (errors, storyboard) =>
 		console.error "Error in #{microcreditDRC.settings.storyboard}", errors if errors
