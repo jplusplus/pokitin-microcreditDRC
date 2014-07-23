@@ -19,7 +19,7 @@ Will install python dependances with pip in a virtualenv and nodejs dependances 
 
 ### Generate the Static Files
 
-	make freeze
+	make freeze BASE_URL="http://jplusplus.github.io/pokitin-microcreditDRC/"
 
 Will greate a `build` folder with the static files inside
 
