@@ -122,14 +122,16 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@uis.legend_scale.html("")
 		@uis.legend_title.html("")
 		$("g.scale", @ui).remove()
-		# make a zoom
+		# reset map
 		@groupPaths.selectAll('path')
+			.classed "choropleth", false
 			.classed "discret", (d) ->
 				d.is_discret = false
 				if story.map_highlight?
 					if not (story.map_highlight? and d.properties.Name in story.map_highlight)
 						d.is_discret = true
 				return d.is_discret
+			# make a zoom
 			.transition().duration(CONFIG.transition_duration)
 				.attr("transform", @computeZoomTranslation(story))
 		@story = story
@@ -159,7 +161,12 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				# save color in element properties
 				d.color = color
 				return color
-
+			.classed "choropleth", true
+			.classed "has-data", (d) ->
+				d.has_data = false
+				if countries[d.properties.Name]?
+					d.has_data = true
+				return d.has_data
 		# tooltip
 		@groupPaths.selectAll('path').each (d) ->
 			self = this
