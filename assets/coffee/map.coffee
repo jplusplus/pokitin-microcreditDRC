@@ -296,7 +296,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@groupSymbols.selectAll("circle")
 			.attr "fill", (d) ->
 				color = CONFIG.bubble_default_color
-				if story.bubble_highlight? and d[story.name] in story.bubble_highlight
+				if story.bubble_highlight? and d[story.bubble_highlight_property or story.name] in story.bubble_highlight
 					color = CONFIG.bubble_highlighted_color
 				return color
 			.transition().duration(CONFIG.transition_duration)
