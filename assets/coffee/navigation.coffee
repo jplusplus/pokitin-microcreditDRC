@@ -26,12 +26,14 @@
 window.microcreditDRC = {} unless window.microcreditDRC?
 
 # first file called, we update the settings from the hash
-settings_in_hash = microcreditDRC.Utils.getHashParams().settings
+settings_in_hash = serious.Utils.getHashParams().settings
 $.extend(true, microcreditDRC.settings, JSON.parse(settings_in_hash)) if settings_in_hash?
 
 class microcreditDRC.Navigation extends serious.Widget
 
 	constructor : ->
+		# load story to show from hash
+		@showStory(serious.Utils.getHashParams().story) if serious.Utils.getHashParams().story?
 		# load storyboard
 		q = queue().defer(d3.json, microcreditDRC.settings.storyboard)
 		q.await(@dataLoaded)
@@ -61,7 +63,11 @@ class microcreditDRC.Navigation extends serious.Widget
 		@showStory()
 
 	showStory: (story_idx) =>
-		@scope.currentStory(story_idx) if story_idx?
+		return setTimeout((=> @showStory(story_idx)), 100) unless @scope? and @scope.storyboard().length > 0
+		if story_idx?
+			story_idx = Math.min(story_idx, @scope.storyboard().length - 1)
+			story_idx = Math.max(story_idx, 0)
+			@scope.currentStory(story_idx) 
 		@africaMapWidget.setStory(@scope.storyboard()[@scope.currentStory()].map)
 		@storyWidget.setStory(@scope.currentStory())
 
@@ -72,11 +78,9 @@ class microcreditDRC.Navigation extends serious.Widget
 		return @scope.currentStory() > 0
 
 	next: =>
-		@scope.currentStory(@scope.currentStory() + 1) if @hasNext()
-		@showStory()
+		@showStory(@scope.currentStory() + 1)
 
 	previous: =>
-		@scope.currentStory(@scope.currentStory() - 1) if @hasPrevious()
-		@showStory()
+		@showStory(@scope.currentStory() - 1)
 
 # EOF
