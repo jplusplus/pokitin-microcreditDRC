@@ -176,7 +176,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 					show     : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
 					position : if story.tooltip? and d.properties.Name in story.tooltip then {target: d3.select(d), adjust: {x:-50, y:-30}} else undefined
 					content  :
-						text: "#{d.properties.Name}<br/><strong>#{d3.format(".4s")(countries[d.properties.Name])}</strong>"
+						text: "#{d.properties.Name}<br/><strong>#{d3.format(".4s")(countries[d.properties.Name]).replace("M", " millions").replace("G", " millards")}</strong>"
 				do (self, params) ->
 					setTimeout((-> $(self).qtip _.defaults(params, CONFIG.tooltip_style)), CONFIG.transition_duration)
 		# /------ LEGEND 
@@ -200,7 +200,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			if index < domains.length - 1
 				delta = domains[index + 1] - step
 				color = scale(step)
-				label = d3.format(".2s")(rounded_domains[index].toString().replace('.', ","))
+				label = d3.format(".1s")(rounded_domains[index].toString().replace('.', ","))
 				# if index == domains.length - 2 and that.stories.get(that.story_selected).infos["append_sign"]?
 				# 	label += " #{that.stories.get(that.story_selected).infos["append_sign"]}"
 				size  = (if size_by_value then delta / domains_delta * legend_size else legend_size / (domains.length - 1))
