@@ -71,16 +71,12 @@ class microcreditDRC.Navigation extends serious.Widget
 		@africaMapWidget.setStory(@scope.storyboard()[@scope.currentStory()].map)
 		@storyWidget.setStory(@scope.currentStory())
 
-	hasNext: =>
-		return @scope.currentStory() < @scope.storyboard().length - 1 if @scope.storyboard()
+	hasNext:     => return @scope.currentStory() < @scope.storyboard().length - 1 if @scope.storyboard()
 
-	hasPrevious: =>
-		return @scope.currentStory() > 0
+	hasPrevious: => return @scope.currentStory() > 0
 
-	next: =>
-		@showStory(@scope.currentStory() + 1)
+	next:        => @showStory(@scope.currentStory() + 1)
 
-	previous: =>
-		@showStory(@scope.currentStory() - 1)
+	previous:    => @showStory(@scope.currentStory() - 1)
 
 # EOF

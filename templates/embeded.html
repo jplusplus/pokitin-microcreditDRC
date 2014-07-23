@@ -40,17 +40,18 @@
 			<h3>Customize</h3>
 
 			You can overwrite settings in the url hash like in the next iframe or directly in the file <strong>static/gen/settings.js</strong>.<br/><a href="#outsided-navigation">See bellow the result</a>.
+			You can also specify a story index to show at the initialization.
 
-			<pre>&lt;iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={
-	&quot;show_navigation&quot;:false,
-	&quot;background_color&quot;:&quot;rgb(75, 56, 50)&quot;,
-	&quot;text_color&quot;:&quot;white&quot;,
-	&quot;map&quot; :{
+			<pre>&lt;iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#<strong>story</strong>=0&<strong>settings</strong>={
+	&quot;show_navigation&quot; : false,
+	&quot;background_color&quot;: &quot;rgb(75, 56, 50)&quot;,
+	&quot;text_color&quot;      : &quot;white&quot;,
+	&quot;map&quot;             : {
 		&quot;choropleth_color_scale&quot; : [&quot;rgb(255,255,212)&quot;,&quot;rgb(254,227,145)&quot;,&quot;rgb(254,196,79)&quot;,&quot;rgb(254,153,41)&quot;,&quot;rgb(236,112,20)&quot;,&quot;rgb(204,76,2)&quot;,&quot;rgb(140,45,4)&quot;]
 	}
 }" width="100%" height="300" frameborder="0"&gt;&lt;/iframe&gt;</pre>
 
-			<h3>Story</h3>
+			<h3>Where are the stories and the data</h3>
 			<ul>
 				<li><strong>Data</strong> are in <strong>static/data/</strong></li>
 				<li><strong>Storyboard</strong> is in <strong>static/storyboard.json</strong></li>
@@ -78,7 +79,7 @@
 			<h2 id="outsided-navigation">Exemple with outisided navigation</h2>
 
 			This is an iframe
-			<iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={&quot;show_navigation&quot;:false, &quot;background_color&quot;:&quot;rgb(75, 56, 50)&quot;, &quot;text_color&quot;:&quot;white&quot;, &quot;map&quot; :{ &quot;choropleth_color_scale&quot; : [&quot;rgb(255,255,212)&quot;,&quot;rgb(254,227,145)&quot;,&quot;rgb(254,196,79)&quot;,&quot;rgb(254,153,41)&quot;,&quot;rgb(236,112,20)&quot;,&quot;rgb(204,76,2)&quot;,&quot;rgb(140,45,4)&quot;]}}" width="100%" height="300" frameborder="0"></iframe>
+			<iframe id="map-iframe" src="{{ url_for("index", _external=True) }}#settings={&quot;show_navigation&quot;:false, &quot;background_color&quot;:&quot;rgb(75, 56, 50)&quot;, &quot;text_color&quot;:&quot;white&quot;, &quot;map&quot; :{ &quot;choropleth_color_scale&quot; : [&quot;rgb(255,255,212)&quot;,&quot;rgb(254,227,145)&quot;,&quot;rgb(254,196,79)&quot;,&quot;rgb(254,153,41)&quot;,&quot;rgb(236,112,20)&quot;,&quot;rgb(204,76,2)&quot;,&quot;rgb(140,45,4)&quot;]}}&story=0" width="100%" height="300" frameborder="0"></iframe>
 
 			And you can control the map with these outsided buttons<br/>
 			<button id="previous" onclick="previous()">Previous</button>
