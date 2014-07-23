@@ -47,6 +47,7 @@
 			"display"   : "bubble",
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"],
 			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
+			"map_highlight"    : ["Democratic Republic of the Congo"],
 			"name"      : "institute",
 			"value"     : "gross loan volume",
 			"legend"    : "Solde brut des prêts"
@@ -61,6 +62,7 @@
 			"display"   : "bubble",
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"],
 			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
+			"map_highlight"    : ["Democratic Republic of the Congo"],
 			"name"      : "institute",
 			"value"     : "number of borrowers",
 			"legend"    : "Nombre d'emprunteurs"
@@ -74,6 +76,7 @@
 			"display"   : "bubble",
 			"show_only" : ["Hekima", "Smico", "Coopec Kitumaini"],
 			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
+			"map_highlight"    : ["Democratic Republic of the Congo"],
 			"name"      : "institute",
 			"value"     : "average loan",
 			"legend"    : "Moyenne des prêts"

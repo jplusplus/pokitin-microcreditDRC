@@ -53,7 +53,6 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		# Bind events
 		$(window).resize _.debounce(@relayout, 300)
 		@ready = true
-		$("body").removeClass("loading")
 
 	relayout: =>
 		# compute size
@@ -125,6 +124,12 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		$("g.scale", @ui).remove()
 		# make a zoom
 		@groupPaths.selectAll('path')
+			.classed "discret", (d) ->
+				d.is_discret = false
+				if story.map_highlight?
+					if not (story.map_highlight? and d.properties.Name in story.map_highlight)
+						d.is_discret = true
+				return d.is_discret
 			.transition().duration(CONFIG.transition_duration)
 				.attr("transform", @computeZoomTranslation(story))
 		@story = story
@@ -136,6 +141,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				@renderBubble(story)
 		if story.legend?
 			@uis.legend_title.html(story.legend)
+		$("body").removeClass("loading")
 
 	renderChoropleth: (story) =>
 		that = this
@@ -149,16 +155,11 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		scale  = chroma.scale(CONFIG.choropleth_color_scale).domain(domain, CONFIG.choropleth_bucket_number)
 		@groupPaths.selectAll('path')
 			.attr 'fill', (d) -> # color countries using the color scale
-				# mode highlight : color only the highlighted countries
-				# otherwise      : color all the countries with data
-				color = CONFIG.default_fill_color
-				if countries[d.properties.Name]?
-					if (story.map_highlight? and d.properties.Name in story.map_highlight) \
-					or not story.map_highlight?
-						color = scale(countries[d.properties.Name]).hex()
+				color = scale(countries[d.properties.Name]).hex()
 				# save color in element properties
 				d.color = color
 				return color
+
 		# tooltip
 		@groupPaths.selectAll('path').each (d) ->
 			self = this
@@ -166,7 +167,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				params = 
 					# show the tooltip if the country name is in story.tooltip
 					show     : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
-					position : if story.tooltip? and d.properties.Name in story.tooltip then {target: d3.select(d), adjust: {x:-50, y:-50}} else undefined
+					position : if story.tooltip? and d.properties.Name in story.tooltip then {target: d3.select(d), adjust: {x:-50, y:-30}} else undefined
 					content  :
 						text: "#{d.properties.Name}<br/><strong>#{d3.format(".4s")(countries[d.properties.Name])}</strong>"
 				do (self, params) ->
@@ -220,15 +221,12 @@ class microcreditDRC.AfricaMap extends serious.Widget
 					$target.addClass("active")
 					$target.addClass("fixed") if fix
 					step_color = chroma.color($target.css("background-color")).hex()
-					opacity    = (path) -> if path.color == step_color then 1 else .2
 					that.groupPaths.selectAll("path")
-						.attr("opacity", opacity)
-						.classed("discret", false)
+						.classed("discret", ((path) -> return path.color != step_color))
 				deselect = (e, force=false) =>
 					$(".step").removeClass("active fixed")
 					that.groupPaths.selectAll("path")
-						.attr("opacity", 1)
-						.classed("discret", (d) -> d.is_discrete)
+						.classed("discret", ((d) -> return d.is_discret))
 				$step.add($sticker).hover(select, deselect)
 				that.uis.legend_scale.append $step
 				offset += size

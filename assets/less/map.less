@@ -5,6 +5,14 @@
 		path {
 			stroke       : #E8E8E8;
 			stroke-width : .05em;
+			&.discret {
+				opacity: .1;
+			}
+			&:hover {
+				opacity: 1;
+			}
+			transition-property: opacity;
+			transition-duration: .50s;
 		}
 	}
 	.legend {
