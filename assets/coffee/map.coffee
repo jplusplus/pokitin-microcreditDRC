@@ -201,9 +201,8 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				delta = domains[index + 1] - step
 				color = scale(step)
 				label = d3.format(".1s")(rounded_domains[index].toString().replace('.', ","))
-				# if index == domains.length - 2 and that.stories.get(that.story_selected).infos["append_sign"]?
-				# 	label += " #{that.stories.get(that.story_selected).infos["append_sign"]}"
 				size  = (if size_by_value then delta / domains_delta * legend_size else legend_size / (domains.length - 1))
+				# size = delta / domains_delta * legend_size
 				# setting step
 				$step = $("<div class='step'></div>")
 				$sticker = $("<span class='sticker'></span>").appendTo(that.uis.legend_scale)
