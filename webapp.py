@@ -53,14 +53,14 @@ def index():
 	response = make_response(render_template('home.jade'))
 	return response
 
-@app.route('/embeded.html')
-def embeded():
+@app.route('/embedded.html')
+def embedded():
 	g.language = "en"
 	settings_content = "".join(open("assets/coffee/settings.coffee").readlines())
 	start_to         = settings_content.index("microcreditDRC.settings =")
 	end_to           = settings_content.index("# EOF")
 	settings_content = settings_content[start_to:end_to]
-	response = make_response(render_template('embeded.html', settings_content=settings_content))
+	response = make_response(render_template('embedded.html', settings_content=settings_content))
 	return response
 
 # -----------------------------------------------------------------------------
