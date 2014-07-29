@@ -294,12 +294,12 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@symbol.exit().remove()
 		# set circles properties
 		@groupSymbols.selectAll("circle")
-			.attr "fill", (d) ->
-				color = CONFIG.bubble_default_color
-				if story.bubble_highlight? and d[story.bubble_highlight_property or story.name] in story.bubble_highlight
-					color = CONFIG.bubble_highlighted_color
-				return color
 			.transition().duration(CONFIG.transition_duration)
+				.attr "fill", (d) ->
+					color = CONFIG.bubble_default_color
+					if story.bubble_highlight? and d[story.bubble_highlight_property or story.name] in story.bubble_highlight
+						color = CONFIG.bubble_highlighted_color
+					return color
 				.attr "r", ((d)-> d.radius)
 		# active the Force
 		@force.start()
