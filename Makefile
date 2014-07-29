@@ -50,9 +50,9 @@ install:
 	@echo "installed"
 
 freeze: clean
-	-rm build -r
+	$(RM) build -r
 	. `pwd`/.env ;  export DEBUG="False" ; export BASE_URL=$(BASE_URL) ;python -c "from webapp import app; from flask_frozen import Freezer; freezer = Freezer(app); freezer.freeze()"
-	-rm build/static/.webassets-cache/ -r
+	$(RM) build/static/.webassets-cache/ -r
 	@echo "freezed in $(DIST_DIR)"
 
 update_i18n:
@@ -65,7 +65,7 @@ compile_i18n:
 archive: freeze
 	@cp -r $(DIST_DIR) $(PROJECT_NAME)-$(TIMESTAMP)
 	@tar cvjf "$(PROJECT_NAME)-$(TIMESTAMP).tar.bz2" "$(PROJECT_NAME)-$(TIMESTAMP)"
-	@rm -rf $(PROJECT_NAME)-$(TIMESTAMP)
+	$(RM) -rf $(PROJECT_NAME)-$(TIMESTAMP)
 	@echo "archive $(PROJECT_NAME)-$(TIMESTAMP).tar.bz2 created"
 
 # EOF
