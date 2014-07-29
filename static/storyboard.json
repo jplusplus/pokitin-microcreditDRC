@@ -43,7 +43,6 @@
 	},
 	{
 		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
-		"column" : "gross loan volume",
 		"map"  : {
 			"data"      : "microfinance_kivus",
 			"display"   : "bubble",
@@ -58,7 +57,6 @@
 	},
 	{
 		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
-		"column" : "number of borrowers",
 		"map"  : {
 			"data"      : "microfinance_kivus",
 			"display"   : "bubble",
@@ -66,13 +64,12 @@
 			"zoom"      : {"center" : [28.299435,-3.011658], "scale": 6},
 			"map_highlight"    : ["Democratic Republic of the Congo"],
 			"name"      : "institute",
-			"value"     : "number of borrowers",
-			"legend"    : "Nombre d'emprunteurs"
+			"value"     : "interest",
+			"legend"    : "Taux d'intérêt annuel pour un crédit professionnel à un individu en %"
 		}
 	},
 	{
 		"__description_for_redactor__" : "Comparaison entre Hekima, Smico et Coopec Kitumaini",
-		"column" : "average loan",
 		"map"  : {
 			"data"      : "microfinance_kivus",
 			"display"   : "bubble",

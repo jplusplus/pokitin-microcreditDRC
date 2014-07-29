@@ -135,14 +135,14 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			.transition().duration(CONFIG.transition_duration)
 				.attr("transform", @computeZoomTranslation(story))
 		@story = story
+		if story.legend?
+			@uis.legend_title.html(story.legend)
 		# detect the type of map
 		switch story.display
 			when "choropleth"
 				@renderChoropleth(story)
 			when "bubble"
 				@renderBubble(story)
-		if story.legend?
-			@uis.legend_title.html(story.legend)
 		$("body").removeClass("loading")
 
 	renderChoropleth: (story) =>
@@ -316,7 +316,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		if story.value?
 			legend = @groupPaths.append("g")
 				.attr("class", "scale")
-				.attr("transform", "translate(" + (@width - 80) + "," + (@height - 20) + ")")
+				.attr("transform", "translate(" + (@width - 80) + "," + (@height - @uis.legend.height()) + ")")
 				.selectAll("g")
 					.data([Math.max.apply(Math, values), Math.min.apply(Math, values)])
 				.enter().append("g")
