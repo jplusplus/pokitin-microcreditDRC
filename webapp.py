@@ -59,7 +59,8 @@ def embedded():
 	settings_content = "".join(open("assets/coffee/settings.coffee").readlines())
 	start_to         = settings_content.index("microcreditDRC.settings =")
 	end_to           = settings_content.index("# EOF")
-	settings_content = settings_content[start_to:end_to]
+	tab_size         = 2
+	settings_content = settings_content[start_to:end_to].replace("\t", " " * tab_size)
 	response = make_response(render_template('embedded.html', settings_content=settings_content))
 	return response
 
