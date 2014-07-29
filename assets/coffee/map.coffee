@@ -171,12 +171,13 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@groupPaths.selectAll('path').each (d) ->
 			self = this
 			if countries[d.properties.Name]?
+				country_name = data_story.filter((c)-> c.country == d.properties.Name)[0].pays
 				params = 
 					# show the tooltip if the country name is in story.tooltip
 					show     : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
 					position : if story.tooltip? and d.properties.Name in story.tooltip then {target: d3.select(d), adjust: {x:-50, y:-30}} else undefined
 					content  :
-						text: "#{d.properties.Name}<br/><strong>#{d3.format(".4s")(countries[d.properties.Name]).replace("M", " millions").replace("G", " millards")}</strong>"
+						text: "#{country_name}<br/><strong>#{d3.format(".4s")(countries[d.properties.Name]).replace("M", " millions").replace("G", " millards")}</strong>"
 				do (self, params) ->
 					setTimeout((-> $(self).qtip _.defaults(params, CONFIG.tooltip_style)), CONFIG.transition_duration)
 		# /------ LEGEND 
