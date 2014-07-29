@@ -1,5 +1,5 @@
-institute,gross loan volume,number of borrowers,average loan,latitude,longitude
-Hekima,1378420,10459,132,-1.658501,29.220455
-Smico,1130123,,,-2.5,28.866667
-Coopec Kitumaini,133115,,
-Paidec,5123350,8000,640
+institute,gross loan volume,number of borrowers,average loan,latitude,longitude,interest
+Hekima,1378420,10459,132,-1.658501,29.220455,
+Smico,1130123,,,-2.5,28.866667,
+Coopec Kitumaini,133115,,,
+Paidec,5123350,8000,640,,,
