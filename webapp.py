@@ -10,6 +10,8 @@
 # Creation : 02-Jul-2014
 # Last mod : 02-Jul-2014
 # -----------------------------------------------------------------------------
+# vim: tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+# -----------------------------------------------------------------------------
 # This file is part of microcreditDRC.
 # 
 #     microcreditDRC is free software: you can redistribute it and/or modify
