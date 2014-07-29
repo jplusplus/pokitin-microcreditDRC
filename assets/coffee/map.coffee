@@ -288,7 +288,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@symbol = @groupSymbols.selectAll("circle").data(data_story)
 		@symbol.enter()
 			.append("circle", ".all-symbols")
-				.attr("stroke", "white")
+				.attr("stroke", CONFIG.bubble_default_border_color)
 				.attr("stroke-width", CONFIG.bubble_default_size * 0.1)
 				.attr("r", 0)
 		@symbol.exit().remove()
@@ -324,7 +324,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				.attr("cy", ((d) -> return -scale(d) * trans.scale))
 				.attr("fill", CONFIG.bubble_default_color)
 				.attr("stroke-width", 1)
-				.attr("stroke", "white")
+				.attr("stroke", CONFIG.bubble_default_border_color)
 				.attr "r", (d) -> return scale(d) * trans.scale
 			padding = 5
 			text = legend.append("text")
