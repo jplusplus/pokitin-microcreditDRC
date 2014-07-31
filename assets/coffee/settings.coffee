@@ -28,7 +28,7 @@ window.microcreditDRC = {} unless window.microcreditDRC?
 microcreditDRC.settings =
 
 	show_navigation  : true
-	background_color : "#FAF7FF"
+	background_color : "white"
 	text_color       : "black"
 
 	storyboard       : "static/storyboard.json"
