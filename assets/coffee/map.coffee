@@ -172,12 +172,20 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			self = this
 			if countries[d.properties.Name]?
 				country_name = data_story.filter((c)-> c.country == d.properties.Name)[0].pays
+				number = countries[d.properties.Name]
+				if story.divide_by?
+					number = number / story.divide_by
+				number_to_show = ""
+				number_to_show += story.prepend if story.prepend?
+				number_to_show += d3.format(".2r")(number)
+				number_to_show += story.append if story.append?
+
 				params = 
 					# show the tooltip if the country name is in story.tooltip
 					show     : if story.tooltip? and d.properties.Name in story.tooltip then true else undefined
 					position : if story.tooltip? and d.properties.Name in story.tooltip then {target: d3.select(d), adjust: {x:-50, y:-30}} else undefined
 					content  :
-						text: "#{country_name}<br/><strong>#{d3.format(".4s")(countries[d.properties.Name]).replace("M", " millions").replace("G", " millards")}</strong>"
+						text: "#{country_name}<br/><strong>#{number_to_show}</strong>"
 				do (self, params) ->
 					setTimeout((-> $(self).qtip _.defaults(params, CONFIG.tooltip_style)), CONFIG.transition_duration)
 		# /------ LEGEND 
@@ -201,7 +209,7 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			if index < domains.length - 1
 				delta = domains[index + 1] - step
 				color = scale(step)
-				label = d3.format(".1s")(rounded_domains[index].toString().replace('.', ","))
+				label = d3.format(".1r")(rounded_domains[index]/ 1000000)
 				size  = (if size_by_value then delta / domains_delta * legend_size else legend_size / (domains.length - 1))
 				# size = delta / domains_delta * legend_size
 				# setting step
@@ -307,7 +315,13 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@groupSymbols.selectAll('circle').each (d) ->
 			legend_text = "#{d[story.name]}"
 			if !!story.value
-				legend_text += "<br><strong>#{d3.format(".4s")(d[story.value])}</strong>"
+				if story.divide_by?
+					number = d[story.value] / story.divide_by
+				to_show = ""
+				to_show += story.prepend if story.prepend?
+				to_show += d3.format(".4r")(number)
+				to_show += story.append if story.append?
+				legend_text += "<br><strong>#{to_show}</strong>"
 			params =
 				content :
 					text : legend_text
@@ -332,7 +346,10 @@ class microcreditDRC.AfricaMap extends serious.Widget
 				.attr("x", ((d) -> return scale(d) * trans.scale + padding))
 				.attr("dy", "1em")
 				.attr("fill", microcreditDRC.settings.background_color)
-				.text(d3.format(".2s"))
+				.text (d) ->
+					if story.divide_by?
+						d = d / story.divide_by
+					d3.format(".1r")(d)
 			rect = legend.insert("rect", ":first-child")
 				.attr("x", ((d) -> return scale(d) * trans.scale + padding))
 				.attr("y", ((d) -> return -2 * scale(d) * trans.scale))

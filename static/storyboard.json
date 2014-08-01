@@ -4,7 +4,10 @@
 		"map"  : {
 			"display"   : "choropleth",
 			"data"      : "microfinance_africa",
-			"legend"    : "solde bruts de prêts aggrégé"
+			"legend"    : "Solde brut des prêts aggrégés en million de $",
+			"divide_by" : 1000000,
+			"prepend"   : "$",
+			"append"    : "M"
 		}
 	},
 	{
@@ -13,8 +16,11 @@
 			"display"   : "choropleth",
 			"data"      : "microfinance_africa",
 			"tooltip"   : ["Democratic Republic of the Congo"],
-			"legend"    : "solde bruts de prêts aggrégé",
-			"map_highlight" : ["Democratic Republic of the Congo"]
+			"legend"    : "Solde brut des prêts aggrégés en million de $",
+			"map_highlight" : ["Democratic Republic of the Congo"],
+			"divide_by" : 1000000,
+			"prepend"   : "$",
+			"append"    : "M"
 		}
 	},
 	{
@@ -51,7 +57,10 @@
 			"map_highlight"    : ["Democratic Republic of the Congo"],
 			"name"      : "institute",
 			"value"     : "gross loan volume",
-			"legend"    : "Solde brut des prêts"
+			"legend"    : "Solde brut des prêts en million de $",
+			"divide_by" : 1000000,
+			"prepend"   : "$",
+			"append"    : "M"
 
 		}
 	},
