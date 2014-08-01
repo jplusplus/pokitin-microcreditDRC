@@ -321,8 +321,9 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@groupSymbols.selectAll('circle').each (d) ->
 			legend_text = "#{d[story.name]}"
 			if !!story.value
+				number = d[story.value]
 				if story.divide_by?
-					number = d[story.value] / story.divide_by
+					number = number / story.divide_by
 				to_show = ""
 				to_show += story.prepend if story.prepend?
 				to_show += d3.format(".4r")(number)
