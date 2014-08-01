@@ -89,7 +89,8 @@
 			"map_highlight"    : ["Democratic Republic of the Congo"],
 			"name"      : "institute",
 			"value"     : "average loan",
-			"legend"    : "Moyenne des prêts",
+			"legend"    : "moyenne des prêts en $",
+			"prepend"   : "$",
 			"colorize"  : true
 		}
 	}
