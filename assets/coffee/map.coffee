@@ -259,6 +259,9 @@ class microcreditDRC.AfricaMap extends serious.Widget
 			scale  = d3.scale.linear()
 				.domain([Math.min.apply(Math, values), Math.max.apply(Math, values)])
 				.range(CONFIG.bubble_size_range)
+		# color scale
+		if story.colorize?
+			color_scale = d3.scale.category10()
 		# update data
 		for line in data_story
 			coord       = @projection([line.longitude, line.latitude])
@@ -304,7 +307,10 @@ class microcreditDRC.AfricaMap extends serious.Widget
 		@groupSymbols.selectAll("circle")
 			.transition().duration(CONFIG.transition_duration)
 				.attr "fill", (d) ->
-					color = CONFIG.bubble_default_color
+					if color_scale?
+						color = color_scale(d[story.name])
+					else
+						color = CONFIG.bubble_default_color
 					if story.bubble_highlight? and d[story.bubble_highlight_property or story.name] in story.bubble_highlight
 						color = CONFIG.bubble_highlighted_color
 					return color

@@ -60,7 +60,8 @@
 			"legend"    : "Solde brut des prêts en million de $",
 			"divide_by" : 1000000,
 			"prepend"   : "$",
-			"append"    : "M"
+			"append"    : "M",
+			"colorize"  : true
 
 		}
 	},
@@ -74,7 +75,8 @@
 			"map_highlight"    : ["Democratic Republic of the Congo"],
 			"name"      : "institute",
 			"value"     : "interest",
-			"legend"    : "Taux d'intérêt annuel pour un crédit professionnel à un individu en %"
+			"legend"    : "Taux d'intérêt annuel pour un crédit professionnel à un individu en %",
+			"colorize"  : true
 		}
 	},
 	{
@@ -87,7 +89,8 @@
 			"map_highlight"    : ["Democratic Republic of the Congo"],
 			"name"      : "institute",
 			"value"     : "average loan",
-			"legend"    : "Moyenne des prêts"
+			"legend"    : "Moyenne des prêts",
+			"colorize"  : true
 		}
 	}
 ]
